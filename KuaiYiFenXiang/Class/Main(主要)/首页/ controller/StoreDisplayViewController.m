@@ -838,14 +838,27 @@ static int pointY = 0;
 
 - (void)share:(UIButton *)sender {
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"login_logo"]];
+    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
+    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+    NSString *business_id = self.business_idstring;
+
+    NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, business_id, user_id, token);
+    
+    //分享的店铺图标
+    NSArray* imageArray;
+    if (!kStringIsEmpty(self.TheStoreModel.logo)) {
+        imageArray = @[[NSString stringWithFormat:@"%@%@",DefaultDomainName,self.TheStoreModel.logo]];
+    }else{
+        imageArray = @[[UIImage imageNamed:@"店铺logo"]];
+    }
+    
     if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"你的好友向您推荐了一款购物应用【快益分享商城】，优惠多多，现在注册，5倍收益，赶紧下载体验吧！"]
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我很喜欢这家店铺的东西，价格也挺便宜，你也来看看吧！"]
                                          images:imageArray
-                                            url:[NSURL URLWithString:[@"itms-apps://itunes.apple.com/us/app/快益分享商城/id1245685766?l=zh&ls=1&mt=8" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
-                                          title:[NSString stringWithFormat:@"推荐这个实用APP给你~"]
+                                            url:[NSURL URLWithString:[shopShareUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+                                          title:GetSaveString(self.TheStoreModel.name)
                                            type:SSDKContentTypeAuto];
         //有的平台要客户端分享需要加此方法，例如微博
         [shareParams SSDKEnableUseClientShare];

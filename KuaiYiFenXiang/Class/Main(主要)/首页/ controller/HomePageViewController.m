@@ -1109,7 +1109,7 @@ static NSString *const TodayOnSaleCellID = @"TodayOnSaleCellID";
 //二维码扫描
 -(void)scanClick{
     
-    if ([KYHeader checkLogin]) {
+    if ([KYHeader checkNormalBackLogin]) {
         
         LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
         style.centerUpOffset = 44;

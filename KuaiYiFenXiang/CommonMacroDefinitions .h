@@ -10,20 +10,37 @@
 #ifndef CommonMacroDefinitions__h
 #define CommonMacroDefinitions__h
 
-//设置默认请求地址URL 通过修改这里来修改正式或者测试环境
+//接口域名
 #define DefaultDomainName DebugDomain
-
-//测试环境的域名
+//测试环境
 #define DebugDomain @"http://testweb.kuaiyishare.com/"
-//正式环境的域名
+//正式环境
 #define FormalDomain @"https://www.kuaiyishare.com/"
 
 //图片域名
 #define defaultUrl DebugImgDomain
-//测试图片的域名
+//测试环境
 #define DebugImgDomain @"http://testweb.kuaiyishare.com"
-//正式图片的域名
+//正式环境
 #define FormalImgDomain @"https://static.kuaiyishare.com"
+
+//商品分享域名
+#define GoodShareUrl DebugGoodShareDomain
+//测试环境
+#define DebugGoodShareDomain @"http://testweb.kuaiyishare.com/Mobile/Toshare/toshare"
+//正式环境
+#define FormalGoodShareDomain @""
+
+//店铺分享域名
+#define ShopShareUrl DebugShopShareDomain
+//测试环境
+#define DebugShopShareDomain @"http://testweb.kuaiyishare.com/Mobile/Toshare/shopgoodslist"
+//正式环境
+#define FormalShopShareDomain @""
+
+//拼接分享商品或商家的链接地址
+#define JoinShareWebUrlStr(webUrl,id,user_id,token) [webUrl stringByAppendingString:[NSString stringWithFormat:@"?id=%@&user_id=%@&token=%@",id,user_id,token]]
+
 
 //获取用户的token的令牌
 #define tokenappid  @"qqgx69728090"

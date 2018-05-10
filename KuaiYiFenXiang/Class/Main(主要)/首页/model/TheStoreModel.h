@@ -12,9 +12,15 @@
 
 @property (nonatomic, copy ) NSString *business_id;
 
+@property (nonatomic, copy ) NSString *goods_id;
+
 @property (nonatomic, copy ) NSString *logo;
 
 @property (nonatomic, copy ) NSString *name;
+
+@property (nonatomic, copy ) NSString *goods_name;
+
+@property (nonatomic, copy ) NSString *original_img;    //商品图片
 
 @property (nonatomic, copy ) NSString *enterStoreString;
 

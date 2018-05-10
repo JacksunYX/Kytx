@@ -125,7 +125,7 @@
 //        NSLog(@"活动进行中...");
     }
     
-    [self.checkdetailsButton setTitle:@"查看详情" forState:UIControlStateNormal];
+//    [self.checkdetailsButton setTitle:@"查看详情" forState:UIControlStateNormal];
     
     [self layoutSubviews];
 }
@@ -251,16 +251,17 @@
     self.youhuicontentLabel.sd_layout
     .leftEqualToView(self.youhuititleLabel)
     .topSpaceToView(self.youhuiImageView, 15)
-    .widthIs(SCREEN_WIDTH * 0.6)
+//    .widthIs(SCREEN_WIDTH * 0.6)
+    .rightEqualToView(self.youhuitimeLabel)
     .autoHeightRatio(0)
     ;
     [self.youhuicontentLabel setMaxNumberOfLinesToShow:3];
 
-    self.checkdetailsButton.sd_layout
-    .centerYEqualToView(self.youhuicontentLabel)
-    .rightEqualToView(self.youhuitimeLabel)
-    .widthIs(60)
-    .heightIs(20);
+//    self.checkdetailsButton.sd_layout
+//    .centerYEqualToView(self.youhuicontentLabel)
+//    .rightEqualToView(self.youhuitimeLabel)
+//    .widthIs(60)
+//    .heightIs(20);
     
     
     
