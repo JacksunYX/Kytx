@@ -114,6 +114,12 @@
     
     kStringIsEmpty(discountModel.content)?:[self.youhuicontentLabel setText:discountModel.content];
     
+    if (!kStringIsEmpty(discountModel.content)) {
+        NSString *str = [discountModel.content stringByAppendingString:@"  立即查看>>"];
+        NSMutableAttributedString *attText = [NSString RichtextString:str andstartstrlocation:str.length - 6 andendstrlocation:6 andchangcoclor:kColord40 andchangefont:self.youhuicontentLabel.font];
+        self.youhuicontentLabel.attributedText = attText;
+    }
+    
     if (discountModel.on_time.integerValue == 1) {  //过期
         self.noticeLabel.hidden = NO;
         self.noticeLabel.text = @"已结束";
@@ -124,6 +130,8 @@
         self.noticeLabel.hidden = YES;
 //        NSLog(@"活动进行中...");
     }
+    
+    
     
 //    [self.checkdetailsButton setTitle:@"查看详情" forState:UIControlStateNormal];
     
@@ -187,10 +195,10 @@
 {
     if (_youhuicontentLabel == nil) {
         _youhuicontentLabel = [[UILabel alloc] init];
+        _youhuicontentLabel.font = PFR14Font;
+        _youhuicontentLabel.textColor = HexColor(333333);
+        _youhuicontentLabel.textAlignment=NSTextAlignmentLeft;
     }
-    _youhuicontentLabel.font=PFR12Font;
-    _youhuicontentLabel.textColor=HexColor(333333);
-    _youhuicontentLabel.textAlignment=NSTextAlignmentLeft;
 //    _youhuicontentLabel.contentMode=UIViewContentModeCenter;
     [self.contentView addSubview:_youhuicontentLabel];
     return _youhuicontentLabel;
@@ -255,6 +263,7 @@
     .rightEqualToView(self.youhuitimeLabel)
     .autoHeightRatio(0)
     ;
+    self.youhuicontentLabel.isAttributedContent = YES;
     [self.youhuicontentLabel setMaxNumberOfLinesToShow:3];
 
 //    self.checkdetailsButton.sd_layout

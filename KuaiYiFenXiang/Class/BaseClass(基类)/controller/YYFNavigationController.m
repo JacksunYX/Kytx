@@ -27,7 +27,7 @@
     //设置导航栏半透明
     [UINavigationBar appearance].translucent = NO;
     
-    [self hideNavigationDownLine];
+//    [self hideNavigationDownLine];
     
     [self.navigationBar setTitleTextAttributes:
     

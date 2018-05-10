@@ -618,13 +618,14 @@
 - (void)share:(UIButton *)sender {
     NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
     NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
-    NSString *good_id;
-    if (kStringIsEmpty(self.goods_id)) {
-        good_id = self.GeneralGoodsModel.goods_id;
-    }else{
-        good_id = self.goods_id;
-    }
-    NSString *goodShareUrlStr = JoinShareWebUrlStr(GoodShareUrl, good_id, user_id, token);
+    NSString *good_id = model.goods_id;
+    NSString *business_id = model.business_id;
+//    if (kStringIsEmpty(self.goods_id)) {
+//        good_id = self.GeneralGoodsModel.goods_id;
+//    }else{
+//        good_id = self.goods_id;
+//    }
+    NSString *goodShareUrlStr = JoinShareWebUrlStr(GoodShareUrl, good_id, business_id, user_id, token);
     
 //    [@"itms-apps://itunes.apple.com/us/app/快益分享商城/id1245685766?l=zh&ls=1&mt=8" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
     

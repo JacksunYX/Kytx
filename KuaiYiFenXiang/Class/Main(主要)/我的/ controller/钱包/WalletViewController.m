@@ -110,8 +110,10 @@
     
     [HttpRequest postWithTokenURLString:NetRequestUrl(mywallet) parameters:dict isShowToastd:NO isShowHud:NO isShowBlankPages:NO success:^(id res) {
         if ([res[@"code"] integerValue] == 1) {
-            self.moneyLabel.text = res[@"result"][@"money"];
-            self.money = res[@"result"][@"money"];
+            
+            self.money = [NSString stringWithFormat:@"%@",res[@"result"][@"total"]];
+            self.moneyLabel.text = self.money;
+            
         }
     } failure:nil RefreshAction:nil];
 }

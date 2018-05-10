@@ -341,7 +341,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary new];
     [HttpRequest postWithTokenURLString:NetRequestUrl(mywallet) parameters:dic isShowToastd:NO isShowHud:NO isShowBlankPages:NO success:^(id res) {
         if ([res[@"code"] integerValue] == 1) {
-            currentBalance = res[@"result"][@"money"];
+            currentBalance = [NSString stringWithFormat:@"%@",res[@"result"][@"total"]];
             if (currentBalance.integerValue == 0) {
                 currentBalance = @"";
             }

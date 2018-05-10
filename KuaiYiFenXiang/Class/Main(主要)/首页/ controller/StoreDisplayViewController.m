@@ -842,7 +842,7 @@ static int pointY = 0;
     NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
     NSString *business_id = self.business_idstring;
 
-    NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, business_id, user_id, token);
+    NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, @"",business_id, user_id, token);
     
     //分享的店铺图标
     NSArray* imageArray;

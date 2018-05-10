@@ -434,9 +434,9 @@
     dic[@"id"] = discount_id;
     [HttpRequest postWithTokenURLString:NetRequestUrl(favourable) parameters:dic isShowToastd:YES isShowHud:YES isShowBlankPages:NO success:^(id response) {
         if ([response[@"code"] integerValue] == 1) {
-            GCDAfter1s(^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            });
+//            GCDAfter1s(^{
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//            });
         }
     } failure:^(NSError *error) {
         

@@ -38,7 +38,6 @@ static int pageNum=0;
     
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -51,7 +50,7 @@ static int pageNum=0;
     mytableview.dataSource=self;
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenW, 10)];
     headView.backgroundColor = BACKGROUND_COLOR;
-    mytableview.tableHeaderView = headView;
+//    mytableview.tableHeaderView = headView;
     mytableview.tableFooterView = [UIView new];
     
     [self.view addSubview:mytableview];

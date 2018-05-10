@@ -133,7 +133,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary new];
     [HttpRequest postWithTokenURLString:NetRequestUrl(mywallet) parameters:dic isShowToastd:NO isShowHud:NO isShowBlankPages:NO success:^(id res) {
         if ([res[@"code"] integerValue] == 1) {
-            currentBalance = res[@"result"][@"money"];
+            currentBalance = [NSString stringWithFormat:@"%@",res[@"result"][@"total"]];
             if (currentBalance.integerValue == 0) {
                 currentBalance = @"";
             }
@@ -369,14 +369,28 @@
             }
         }
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        //分割线
+        UIView *line = [UIView new];
+        line.backgroundColor = CELLBORDERCOLOR;
+        [cell.contentView addSubview:line];
+        line.sd_layout
+        .topSpaceToView(cell.contentView, 0.5)
+        .leftEqualToView(cell.contentView)
+        .rightEqualToView(cell.contentView)
+        .heightIs(0.5)
+        ;
+        
         if (indexPath.section==self.business_infoarray.count+1) {
             
             if (indexPath.row==self.lefttextarray.count-1) {
+                
                 [cell.textLabel setFont:PFR15Font];
                 [cell.detailTextLabel setFont:PFR15Font];
                 [cell.textLabel setTextColor:[UIColor blackColor]];
                 [cell.detailTextLabel setTextColor:[UIColor redColor]];
             }else{
+                [line removeFromSuperview];
                 [cell.textLabel setFont:PFR12Font];
                 [cell.detailTextLabel setFont:PFR12Font];
                 [cell.textLabel setTextColor:[UIColor lightGrayColor]];
@@ -386,7 +400,7 @@
             [cell.detailTextLabel setText:self.righttextarray[indexPath.row]];
             
         }else{
-            
+            [line removeFromSuperview];
             if (indexPath.section == self.business_infoarray.count + 2) {
                 //没有余额，则不需要展示组合支付
                 if (kStringIsEmpty(currentBalance)) {
