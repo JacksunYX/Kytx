@@ -1,0 +1,377 @@
+
+
+
+
+
+
+
+
+
+//
+//  PrefixHeader.pch
+//  NewProject
+//
+//  Created by apple on 2017/6/25.
+//  Copyright © 2017年 JuNiao. All rights reserved.
+//
+
+
+
+#ifdef __OBJC__
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+//系统相关分类
+#import "UIDevice+YYAdd.h"
+#import "UIDevice+Category.h"
+//其他分类
+#import "UIAlertView+Category.h"
+#import "UITextField+Category.h"
+
+#import "VersionCheckHelper.h"
+
+//颜色
+#import "UIColor+Hex.h"
+
+//按钮
+#import "UIBarButtonItem+Extension.h"
+
+//位置坐标
+#import "UIView+Extension.h"
+
+#import "UIView+DCExtension.h"
+
+//常数量
+#import "DCConsts.h"
+
+//常用宏定义
+#import "CommonMacroDefinitions .h"
+
+//字符串
+#import "NSString+Encryption.h"
+
+//网络请求
+#import "HttpRequest.h"
+
+//网络框架
+#import "AFNetworking.h"
+
+//提示框
+#import "MBProgressHUD.h"
+
+//下拉刷新
+#import "MJRefresh.h"
+
+//图片加载
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
+
+//自动布局
+#import "SDAutoLayout.h"
+
+//提示框
+#import "UIView+Toast.h"
+
+//空白页
+#import "UIView+DWQEmptyView.h"
+
+//自动布局
+#import "Masonry.h"
+
+#import "UITableView+FDTemplateLayoutCell.h"
+
+//基类表视图控制器
+#import "YYFBaseTableViewController.h"
+
+//基类控制器
+#import "YYDHLBaseViewController.h"
+#import "YYDHLBaseSearchBarViewController.h"
+//自定义基类导航控住器
+#import "YYFNavigationController.h"
+
+//视图工具类
+#import "UIView+SGExtension.h"
+
+//主页面
+#import "YYFTabBarViewController.h"
+
+//返回手势
+#import "UINavigationController+FDFullscreenPopGesture.h"
+
+//倒计时按钮
+#import "WLCaptcheButton.h"
+
+//轮播图
+#import "SDCycleScrollView.h"
+
+//搜索框
+#import "PYSearch.h"
+
+//按钮工具类
+#import "UIButton+ImageTitleSpacing.h"
+
+//滑动导航栏
+//#import "YZDisplayViewController.h"
+
+//键盘输入
+#import "IQKeyboardManager.h"
+
+//弹框
+#import "ELAlertView.h"
+
+//头部视图拉伸变化
+#import "SDZoomHeaderView.h"
+
+//用户头像设置
+#import "SZKImagePickerVC.h"
+
+//省市区选择器
+#import "HXProvincialCitiesCountiesPickerview.h"
+
+#import "HXAddressManager.h"
+
+//强大的yykit框架
+#import "YYKit.h"
+
+//下拉头部视图缩放
+#import "HFStretchableTableHeaderView.h"
+
+//空白页展示
+#import "UIScrollView+EmptyDataSet.h"
+
+//进度条
+#import "YLProgressBar.h"
+
+//功能强大的滑动导航
+#import "TYTabPagerController.h"
+
+//评价星星
+#import "WSStarRatingView.h"
+
+//根视图
+#import "YYFTabBarViewController.h"
+
+
+//支付宝支付
+#import <AlipaySDK/AlipaySDK.h>
+#import "APOrderInfo.h"
+#import "APRSASigner.h"
+
+//微信支付
+//#import "WXApi.h"
+
+//银联支付
+#import "UPPaymentControl.h"
+
+//高德地图
+//#import <AMapFoundationKit/AMapFoundationKit.h>
+
+//显示地图
+//#import <MAMapKit/MAMapKit.h>
+
+//地图检索
+//#import <AMapSearchKit/AMapSearchKit.h>
+
+//友盟分享
+// 在需要进行获取登录信息的UIViewController中加入如下代码
+//#import <UMSocialCore/UMSocialCore.h>
+
+//友盟分享界面UI
+//#import <UShareUI/UShareUI.h>
+
+
+// 引入JPush功能所需头文件
+//#import "JPUSHService.h"
+// iOS10注册APNs所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+// 如果需要使用idfa功能所需要引入的头文件（可选）
+#import <AdSupport/AdSupport.h>
+
+//环信通讯
+//#import <Hyphenate/Hyphenate.h>
+//环信通讯集成UI页面
+//#import "EaseUI.h"
+
+//地址选择列表
+#import "CityListViewController.h"
+
+//通知小红点
+#import "UIView+Badge.h"
+#import "UITabBarItem+Badge.h"
+
+
+
+//视频播放器
+#import "SBPlayer.h"
+#import <MediaPlayer/MediaPlayer.h>
+
+//点击增加数量按钮
+#import "JVShopcartCountView.h"
+
+
+//各种倒计时
+#import "MZTimerLabel.h"
+
+
+//rsa加密
+#import "NSString+Validation.h"
+
+
+//头部视图放大
+#import "UIScrollView+HeaderScaleImage.h"
+
+//各种cell动画
+#import "TableViewAnimationKitHeaders.h"
+
+
+//通知小红点
+#import "DWQBadgeView.h"
+
+
+//自定义弹窗
+//#import "ConfirmPayAlertView.h"
+
+//颜色渐变UIImage
+#import "UIImage+Circle.h"
+
+//改变文字大小颜色
+#import "NSString+Richtext.h"
+
+//字符串工具分类头文件
+#import "CoreCategory+NSString.h"
+
+
+//七牛上传图片
+//#import "UploadImageTool.h"
+
+//关于颜色的类库
+#import "SXColorGradientView.h"
+#import "SXColorLabel.h"
+
+//图片选择器
+#import "HWPublishBaseController.h"
+
+
+//抽屉侧滑菜单
+#import "LLSlideMenu.h"
+
+
+#import "NSString+Category.h"
+
+
+#import "NSString+URL.h"
+
+//悬浮窗
+#import "DYYFloatWindow.h"
+
+
+//仿天猫条件筛选
+#import "ViewController.h"
+#import "ZYSideSlipFilterController.h"
+#import "ZYSideSlipFilterRegionModel.h"
+#import "CommonItemModel.h"
+#import "AddressModel.h"
+#import "PriceRangeModel.h"
+#import "SideSlipCommonTableViewCell.h"
+
+//二维码扫描
+#import "HMScannerController.h"
+
+//简洁大气的下拉弹窗
+#import "ZFDropDown.h"
+#import "MyTableViewCell.h"
+
+//系统定位框架
+#import <CoreLocation/CoreLocation.h>
+
+
+///视频编码上传工具
+#import "GCMImagePickerController.h"
+//视频编码上传模型
+#import "GCMAssetModel.h"
+
+
+//仿快手小视频
+#import "ShootVideoViewController.h"
+#import "PlayVideoViewController.h"
+#import "FullScreenPlayVideosViewController.h"
+
+
+
+//自定义搜索框
+#import "YYFSearchBar.h"
+
+//自定义按钮
+#import "YYFButton.h"
+
+//自定义文本输入框
+#import "YYFImgTextFiled.h"
+
+//转模型
+#import "MJExtension.h"
+
+
+//新闻轮播
+#import "NewsBanner.h"
+
+
+#import "DCSpeedy.h"
+
+//扫描二维码
+#import "LBXScanViewStyle.h"
+#import "SubLBXScanViewController.h"
+
+//用户模型
+#import "DCUserInfo.h"
+
+
+//商品详情页
+#import "DCGoodDetailViewController.h"
+
+
+// Categories
+#import "XWDrawerAnimator.h"
+#import "UIViewController+XWTransition.h"
+
+//注册成功的弹窗
+#import "RegisterSuccessfulPopoversView.h"
+
+//UIWebView页面信息的离线缓存
+#import "RNCachingURLProtocol.h"
+
+#import "NSString+Category.h"
+
+//商品通用模型
+#import "GeneralGoodsModel.h"
+
+//密码输入框
+#import "DCPaymentView.h"
+
+#import "KYHeader.h"
+
+//三级联动
+#import "CDZPicker.h"
+
+//子分类控制器
+#import "SubclassModuleViewController.h"
+
+//NSString分类
+#import "CoreCategory+NSString.h"
+
+//
+#import "AddressHelper.h"
+
+#endif /* PrefixHeader_pch */
+
+#endif
+
+
+
+
+
