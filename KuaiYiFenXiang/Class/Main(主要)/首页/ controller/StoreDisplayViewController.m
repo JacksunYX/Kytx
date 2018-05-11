@@ -22,6 +22,8 @@
 #import <ShareSDKUI/ShareSDKUI.h>
 #import <ShareSDKUI/SSUIShareActionSheetStyle.h>
 
+#import "ShareSDKHelper.h"
+
 static int pageNum=0;
 
 @interface StoreDisplayViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UITextFieldDelegate,PYSearchViewControllerDelegate>{
@@ -841,7 +843,7 @@ static int pointY = 0;
     NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
     NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
     NSString *business_id = self.business_idstring;
-
+    //分享链接
     NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, @"",business_id, user_id, token);
     
     //分享的店铺图标
@@ -852,57 +854,28 @@ static int pointY = 0;
         imageArray = @[[UIImage imageNamed:@"店铺logo"]];
     }
     
-    if (imageArray) {
-        
-        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我很喜欢这家店铺的东西，价格也挺便宜，你也来看看吧！"]
-                                         images:imageArray
-                                            url:[NSURL URLWithString:[shopShareUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
-                                          title:GetSaveString(self.TheStoreModel.name)
-                                           type:SSDKContentTypeAuto];
-        //有的平台要客户端分享需要加此方法，例如微博
-        [shareParams SSDKEnableUseClientShare];
-        
-        //进行分享
-        SSDKPlatformType type = SSDKPlatformTypeAny;
-        if (sender.tag == 10001) {
-            type = SSDKPlatformSubTypeWechatTimeline;
-        } else if (sender.tag == 10002) {
-            type = SSDKPlatformSubTypeWechatSession;
-        } else if (sender.tag == 10003) {
-            type = SSDKPlatformSubTypeQQFriend;
-        }
-        [ShareSDK share:type //传入分享的平台类型
-             parameters:shareParams
-         onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....}];
-             [self tap:nil];
-             switch (state) {
-                     
-                 case SSDKResponseStateSuccess:
-                 {
-                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
-                                                                         message:nil
-                                                                        delegate:nil
-                                                               cancelButtonTitle:@"确定"
-                                                               otherButtonTitles:nil];
-                     [alertView show];
-                     break;
-                 }
-                 case SSDKResponseStateFail:
-                 {
-                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
-                                                                     message:[NSString stringWithFormat:@"%@",error]
-                                                                    delegate:nil
-                                                           cancelButtonTitle:@"OK"
-                                                           otherButtonTitles:nil, nil];
-                     [alert show];
-                     break;
-                 }
-                 default:
-                     break;
-             }
-         }];
+    //设置分享参数
+    ShareModel *shareModel = [ShareModel new];
+    shareModel.shareUrlStr = shopShareUrlStr;
+    shareModel.shareImgs = imageArray;
+    shareModel.shareTitle = GetSaveString(self.TheStoreModel.name);
+    shareModel.shareDescription = [NSString stringWithFormat:@"我很喜欢这家店铺的东西，价格也挺便宜，你也来看看吧！"];
+    
+    SSDKPlatformType shareType = SSDKPlatformTypeAny;
+    if (sender.tag == 10001) {
+        shareType = SSDKPlatformSubTypeWechatTimeline;
+    } else if (sender.tag == 10002) {
+        shareType = SSDKPlatformSubTypeWechatSession;
+    } else if (sender.tag == 10003) {
+        shareType = SSDKPlatformSubTypeQQFriend;
     }
+    
+    //分享
+    [ShareSDKHelper normalShareWithModel:shareModel shareType:shareType success:^{
+        [self tap:nil];
+    } failure:^{
+        [self tap:nil];
+    }];
     
 }
 

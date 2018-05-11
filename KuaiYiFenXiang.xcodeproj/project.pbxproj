@@ -960,6 +960,7 @@
 		885A2F2A204D3F3A001AFD2F /* FocusOnStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F26204D3F39001AFD2F /* FocusOnStoreViewController.m */; };
 		885A2F2B204D3F3A001AFD2F /* CollectionGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F27204D3F39001AFD2F /* CollectionGoodsViewController.m */; };
 		885A2F2E204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F2D204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.m */; };
+		885C400620A5242900A8CE33 /* ShareSDKHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 885C400520A5242900A8CE33 /* ShareSDKHelper.m */; };
 		885E677D200C866E00607874 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E677C200C866E00607874 /* SearchResultsViewController.m */; };
 		885E6780200C9C9300607874 /* TheStoreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E677F200C9C9300607874 /* TheStoreCollectionViewCell.m */; };
 		885E6783200C9F8500607874 /* TheStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E6782200C9F8500607874 /* TheStoreModel.m */; };
@@ -3071,6 +3072,8 @@
 		885A2F29204D3F3A001AFD2F /* CollectionGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionGoodsViewController.h; sourceTree = "<group>"; };
 		885A2F2C204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionGoodsCollectionViewCell.h; sourceTree = "<group>"; };
 		885A2F2D204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionGoodsCollectionViewCell.m; sourceTree = "<group>"; };
+		885C400420A5242900A8CE33 /* ShareSDKHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareSDKHelper.h; sourceTree = "<group>"; };
+		885C400520A5242900A8CE33 /* ShareSDKHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareSDKHelper.m; sourceTree = "<group>"; };
 		885E677B200C866E00607874 /* SearchResultsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
 		885E677C200C866E00607874 /* SearchResultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		885E677E200C9C9300607874 /* TheStoreCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TheStoreCollectionViewCell.h; sourceTree = "<group>"; };
@@ -8091,6 +8094,8 @@
 				880FE9E32080454200915668 /* AddressHelper.m */,
 				8828C9272085DFC200555F53 /* VersionCheckHelper.h */,
 				8828C9282085DFC200555F53 /* VersionCheckHelper.m */,
+				885C400420A5242900A8CE33 /* ShareSDKHelper.h */,
+				885C400520A5242900A8CE33 /* ShareSDKHelper.m */,
 			);
 			path = "其它";
 			sourceTree = "<group>";
@@ -10943,6 +10948,7 @@
 				D576FF34204F8AE3004DDA72 /* OnlineOrderListViewController.m in Sources */,
 				887AC472200C3CC90065838E /* ZXParsedResult.m in Sources */,
 				887AC46C200C3CC90065838E /* ZXExpandedProductParsedResult.m in Sources */,
+				885C400620A5242900A8CE33 /* ShareSDKHelper.m in Sources */,
 				887AC4AE200C3CC90065838E /* ZXDataMatrixDecodedBitStreamParser.m in Sources */,
 				18FC01F8200599F50085BED2 /* TYTabPagerBarLayout.m in Sources */,
 				18FC0184200599F40085BED2 /* KSGuaidViewController.m in Sources */,
