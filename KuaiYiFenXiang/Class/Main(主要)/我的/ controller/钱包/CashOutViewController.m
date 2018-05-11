@@ -28,8 +28,8 @@
     self.view.backgroundColor = kDefaultBGColor;
     
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"提现记录" style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
-    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kWhiteColor, NSFontAttributeName :kBoldFont(16)} forState:UIControlStateNormal];
-    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kWhiteColor, NSFontAttributeName :kBoldFont(16)} forState:UIControlStateSelected];
+    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kColor999, NSFontAttributeName :Font(14)} forState:UIControlStateNormal];
+    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kColor999, NSFontAttributeName :Font(14)} forState:UIControlStateSelected];
     self.navigationItem.rightBarButtonItem = item1;
     
     [self configNavi];
@@ -69,13 +69,33 @@
         }
     }];
     
+    UIScrollView *scrollView = [UIScrollView new];
+    scrollView.backgroundColor = BACKVIEWCOLOR;
+    scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:scrollView];
+    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    UIView *line1 = [UIView new];
+    
+    line1.backgroundColor = kWhiteColor;
+    
+    [scrollView addSubview:line1];
+    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(scrollView);
+        make.right.equalTo(scrollView);
+        make.height.mas_equalTo(90);
+        make.top.equalTo(scrollView);
+    }];
+    
     UIView *aview = [UIView new];
     aview.backgroundColor = [UIColor whiteColor];
     aview.layer.cornerRadius = 30;
-    aview.layer.borderColor = kDefaultBGColor.CGColor;
+    aview.layer.borderColor = kWhite(0.8).CGColor;
     aview.layer.borderWidth = 1;
     
-    [self.view addSubview:aview];
+    [scrollView addSubview:aview];
     [aview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.mas_equalTo(15);
         make.size.mas_equalTo(CGSizeMake(60, 60));
@@ -91,7 +111,7 @@
     
     UILabel *alabel = [self labelWithText:self.bank_name];
     
-    [self.view addSubview:alabel];
+    [scrollView addSubview:alabel];
     [alabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aview.mas_right).offset(10);
         make.bottom.equalTo(imageview.mas_centerY).offset(-5);
@@ -99,30 +119,37 @@
     
     UILabel *blabel = [self labelWithText:[NSString stringWithFormat:@"尾号%@储蓄卡", [self.bank_number substringWithRange:NSMakeRange(self.bank_number.length-4, 4)]]];
     
-    [self.view addSubview:blabel];
+    [scrollView addSubview:blabel];
     [blabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(alabel);
         make.top.equalTo(imageview.mas_centerY).offset(5);
     }];
     
-    UIView *line1 = [UIView new];
     
-    line1.backgroundColor = kDefaultBGColor;
     
-    [self.view addSubview:line1];
-    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(15);
-        make.right.equalTo(self.view).offset(-15);
-        make.height.mas_equalTo(1);
-        make.top.equalTo(aview.mas_bottom).offset(15);
+    NSString *balance = [NSString stringWithFormat:@"可提现金额 %@ 元",self.money];
+    NSInteger changeLength = (self.money.length + 2);
+    NSMutableAttributedString *str = [NSString RichtextString:balance andstartstrlocation:balance.length - changeLength andendstrlocation:changeLength - 2 andchangcoclor:kColord40 andchangefont:Font(13)];
+    
+//    UILabel *dlabel = [self labelWithText:[@"余额￥" stringByAppendingString:self.money]];
+    
+    UILabel *dlabel = [UILabel new];
+    dlabel.textColor = kColor333;
+    dlabel.font = Font(13);
+    dlabel.attributedText = str;
+    
+    [scrollView addSubview:dlabel];
+    [dlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(scrollView).offset(15);
+        make.top.equalTo(line1.mas_bottom).offset(15);
     }];
     
     UILabel *clabel = [self labelWithText:@"提现金额"];
     
-    [self.view addSubview:clabel];
+    [scrollView addSubview:clabel];
     [clabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aview);
-        make.top.equalTo(line1.mas_bottom).offset(15);
+        make.top.equalTo(dlabel.mas_bottom).offset(15);
     }];
     
     UITextField *tf = [[UITextField alloc] init];
@@ -140,42 +167,36 @@
     tf.leftView = left;
     tf.leftViewMode = UITextFieldViewModeAlways;
     
-    [self.view addSubview:tf];
+    [scrollView addSubview:tf];
     [tf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(clabel.mas_bottom).offset(15);
         make.left.equalTo(clabel);
-        make.right.equalTo(self.view);
+        make.right.equalTo(scrollView);
         make.height.mas_equalTo(40);
     }];
     
-    UILabel *dlabel = [self labelWithText:[@"余额￥" stringByAppendingString:self.money]];
     
-    dlabel.textColor = kColor999;
-    [self.view addSubview:dlabel];
-    [dlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(tf);
-        make.top.equalTo(tf.mas_bottom).offset(15);
-    }];
     
     UIView *line2 = [UIView new];
     
     line2.backgroundColor = kDefaultBGColor;
     
-    [self.view addSubview:line2];
+    [scrollView addSubview:line2];
     [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(15);
-        make.right.equalTo(self.view).offset(-15);
+        make.left.equalTo(scrollView).offset(15);
+        make.right.equalTo(scrollView).offset(-15);
         make.height.mas_equalTo(1);
-        make.top.equalTo(dlabel.mas_bottom).offset(15);
+        make.top.equalTo(tf.mas_bottom).offset(15);
     }];
     
-    UILabel *elabel = [self labelWithText:@"请输入支付密码"];
+    UILabel *elabel = [self labelWithText:@"支付密码"];
     
-    [self.view addSubview:elabel];
+    [scrollView addSubview:elabel];
     [elabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(line2);
         make.top.equalTo(line2.mas_bottom).offset(15);
     }];
+    [elabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     
     UITextField *tf2 = [[UITextField alloc] init];
     
@@ -184,24 +205,25 @@
     self.tf2 = tf2;
     tf2.font = kFont(15);
     
-    [self.view addSubview:tf2];
+    [scrollView addSubview:tf2];
     [tf2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(elabel.mas_bottom).offset(15);
-        make.left.equalTo(clabel);
-        make.right.equalTo(self.view);
-        make.height.mas_equalTo(40);
+//        make.top.equalTo(elabel.mas_bottom).offset(15);
+        make.left.equalTo(elabel.mas_right).offset(10);
+        make.centerY.equalTo(elabel);
+        make.right.equalTo(scrollView).offset(-15);
+        make.height.mas_equalTo(44);
     }];
     
     UIView *line3 = [UIView new];
     
     line3.backgroundColor = kDefaultBGColor;
     
-    [self.view addSubview:line3];
+    [scrollView addSubview:line3];
     [line3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
         make.height.mas_equalTo(1);
-        make.top.equalTo(tf2.mas_bottom).offset(15);
+        make.top.equalTo(elabel.mas_bottom).offset(15);
     }];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -214,13 +236,13 @@
     btn.layer.cornerRadius = 5;
     btn.layer.masksToBounds = YES;
     
-    [self.view addSubview:btn];
+    [scrollView addSubview:btn];
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.height.mas_equalTo(44);
         make.top.equalTo(line3.mas_bottom).offset(15);
-        make.left.equalTo(self.view).offset(30);
-        make.right.equalTo(self.view).offset(-30);
+        make.left.equalTo(scrollView).offset(30);
+        make.right.equalTo(scrollView).offset(-30);
     }];
 }
 
