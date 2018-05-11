@@ -210,5 +210,7 @@
 	<string>apis/index/favourableList</string>
 	<key>favourableType</key>
 	<string>apis/index/favourableType</string>
+	<key>consume_money</key>
+	<string>Apis/User/consume_money</string>
 </dict>
 </plist>

@@ -9,6 +9,7 @@
 #import "CashOutViewController.h"
 #import "KYHeader.h"
 #import "PayChangeViewController.h"
+#import "CashOutDetailViewController.h"
 
 @interface CashOutViewController ()<UITextFieldDelegate>
 @property (nonatomic, strong) NSArray *dataArray;
@@ -25,6 +26,11 @@
     self.title = @"提现";
     
     self.view.backgroundColor = kDefaultBGColor;
+    
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"提现记录" style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
+    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kWhiteColor, NSFontAttributeName :kBoldFont(16)} forState:UIControlStateNormal];
+    [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kWhiteColor, NSFontAttributeName :kBoldFont(16)} forState:UIControlStateSelected];
+    self.navigationItem.rightBarButtonItem = item1;
     
     [self configNavi];
     
@@ -279,7 +285,7 @@
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"规则" style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
     [item1 setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13], NSForegroundColorAttributeName : [UIColor colorWithHexString:@"666666"]} forState:UIControlStateNormal];
     [item1 setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13], NSForegroundColorAttributeName : [UIColor colorWithHexString:@"666666"]} forState:UIControlStateHighlighted];
-    self.navigationItem.rightBarButtonItem = item1;
+//    self.navigationItem.rightBarButtonItem = item1;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : kColor333}];
 }
 
@@ -289,10 +295,17 @@
 }
 
 
+//- (void)right:(UIBarButtonItem *)sender {
+//    KYWebViewController *vc = [KYWebViewController new];
+//    vc.web_url = cashoutrule_url;
+//    vc.name = @"提现规则";
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
+
+// 提现记录
 - (void)right:(UIBarButtonItem *)sender {
-    KYWebViewController *vc = [KYWebViewController new];
-    vc.web_url = cashoutrule_url;
-    vc.name = @"提现规则";
+    
+    CashOutDetailViewController *vc = [CashOutDetailViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

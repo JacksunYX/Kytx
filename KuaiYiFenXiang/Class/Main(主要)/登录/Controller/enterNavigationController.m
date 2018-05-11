@@ -154,8 +154,10 @@
     [usernametf creattextfiled:@"login_zh" andlabletext:@"" andplaceholderstr:@"请输入账号"];
     
     //设置密码输入框
-    passwordtf=[[YYFImgTextFiled  alloc]init];
+    passwordtf = [[YYFImgTextFiled  alloc]init];
     [passwordtf addTarget:self action:@selector(textfilechange:) forControlEvents:UIControlEventEditingChanged];
+    passwordtf.returnKeyType = UIReturnKeyDone;
+    passwordtf.delegate = self;
     [scrollView addSubview:passwordtf];
     passwordtf.sd_layout
     .centerXEqualToView(scrollView)
@@ -296,6 +298,12 @@
     
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.view endEditing:YES];
+    [loginBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+    return YES;
+}
 
 //点击协议按钮取反当前的选中状态
 -(void)agreementimgClick{

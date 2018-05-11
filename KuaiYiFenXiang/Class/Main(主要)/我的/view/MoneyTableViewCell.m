@@ -67,11 +67,12 @@
         
         [self.contentView addSubview:_descLabel];
         [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            if ([reuseIdentifier isEqualToString:@"cell2"]) {
-                make.top.equalTo(self.contentView).offset(55);
-            } else {
-                make.top.equalTo(self.contentView).offset(15);
-            }
+//            if ([reuseIdentifier isEqualToString:@"cell2"]) {
+//                make.top.equalTo(self.contentView).offset(55);
+//            } else {
+//                make.top.equalTo(self.contentView).offset(15);
+//            }
+            make.centerY.equalTo(_iconImageView);
             make.left.equalTo(_iconImageView.mas_right).offset(15);
             make.width.mas_equalTo(ScaleWidth(240));
         }];
@@ -135,6 +136,14 @@
             self.scoreLabel.text = [@"+" stringByAppendingString:model.money];
             self.scoreLabel.textColor = kColord40;
         }
+    }else if (self.celltype == 4) {
+        self.descLabel.text = @"已领取";
+        if ([model.user_buy isEqualToString:@"2"]) {
+            self.scoreLabel.text = [@"-" stringByAppendingString:model.money];
+            self.scoreLabel.textColor = [UIColor blackColor];
+            self.descLabel.text = @"已消费";
+        }
+        
     }
 }
 

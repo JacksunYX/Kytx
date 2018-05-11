@@ -39,9 +39,12 @@
     } else if (self.type == 3) {
         self.request_url = NetRequestUrl(frozendetail);
         self.title = @"冻结明细";
-    } else {
+    } else if (self.type == 4) {
         self.request_url = NetRequestUrl(billdetail);
         self.title = @"账户明细";
+    }else if (self.type == 5){
+        self.request_url = NetRequestUrl(consume_money);
+        self.title = @"消费余额";
     }
     [self configNavi];
     [self configUI];
@@ -77,7 +80,7 @@
                     make.top.equalTo(imageview.mas_bottom).offset(10);
                     make.centerX.equalTo(imageview);
                 }];
-                notice.text = @"暂无提现~";
+                notice.text = @"暂无明细";
                 
                 return ;
             }
@@ -272,6 +275,8 @@
         cell.celltype = 2;
     } else if (self.type == 4) {
         cell.celltype = 3;
+    }else if (self.type == 5) {
+        cell.celltype = 4;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.model = model;

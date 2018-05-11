@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL showTitle;
 @property (nonatomic, strong) NSString *type;
 
-
+@property (nonatomic, strong) NSString *user_buy;   //2-消费 1-未消费（领取状态）
 
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
