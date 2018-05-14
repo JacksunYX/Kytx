@@ -12,4 +12,11 @@
 
 @interface GroupPayViewController : MineBaseViewController
 
+@property (nonatomic,copy) NSString *order_shop;    //订单号
+@property (nonatomic,copy) NSString *consume_money; //消费余额
+@property (nonatomic,copy) NSString *money;         //余额
+@property (nonatomic,copy) NSString *total;         //用户总余额
+@property (nonatomic,copy) NSString *payTotal;      //需要支付的总价
+
+@property (nonatomic,copy) NSString *order_name;    //订单名称
 @end

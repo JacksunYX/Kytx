@@ -38,16 +38,25 @@ static int pageNum=0;
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self loadNewData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"关注店铺";
     
     //设置自己的表视图
-    mytableview=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVI_HEIGHT) style:UITableViewStylePlain];
+    mytableview=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVI_HEIGHT) style:UITableViewStyleGrouped];
     [mytableview setBackgroundColor:BACKVIEWCOLOR];
     mytableview.delegate=self;
     mytableview.dataSource=self;
+    mytableview.estimatedRowHeight = 0;
+    mytableview.estimatedSectionFooterHeight = 0;
+    mytableview.estimatedSectionHeaderHeight = 0;
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenW, 10)];
     headView.backgroundColor = BACKGROUND_COLOR;
 //    mytableview.tableHeaderView = headView;
@@ -80,7 +89,7 @@ static int pageNum=0;
     }];
     
     // 马上进入刷新状态
-    [mytableview.mj_header beginRefreshing];
+//    [mytableview.mj_header beginRefreshing];
     
 }
 
@@ -224,8 +233,8 @@ static int pageNum=0;
     [mytableview setShowsVerticalScrollIndicator:NO];
     [mytableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [cell.contentView setBackgroundColor:[UIColor whiteColor]];
-    [cell.contentView.layer setMasksToBounds:YES];
-    [cell.contentView.layer setCornerRadius:10];
+//    [cell.contentView.layer setMasksToBounds:YES];
+//    [cell.contentView.layer setCornerRadius:10];
     //    cell.contentView.layer.borderWidth = 1;
     //    cell.contentView.layer.borderColor = CELLBORDERCOLOR.CGColor;
     
@@ -246,7 +255,15 @@ static int pageNum=0;
     return 215;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
 
 
 //适配不同的机型大小

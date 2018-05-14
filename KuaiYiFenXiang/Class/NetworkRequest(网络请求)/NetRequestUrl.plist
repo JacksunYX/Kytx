@@ -212,5 +212,7 @@
 	<string>apis/index/favourableType</string>
 	<key>consume_money</key>
 	<string>Apis/User/consume_money</string>
+	<key>pay_array</key>
+	<string>Apis/Payment/pay_array</string>
 </dict>
 </plist>

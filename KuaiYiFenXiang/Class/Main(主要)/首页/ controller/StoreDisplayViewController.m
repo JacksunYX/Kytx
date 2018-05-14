@@ -560,13 +560,16 @@ static int pointY = 0;
         NSString *collectStr;
         //代表未登录
         if (self.TheStoreModel.sign == 0) {
-            collectStr = @"收藏店铺";
+//            collectStr = @"收藏店铺";
+            collectionStoreButton.hidden = YES;
+            
         }else{
             if (self.TheStoreModel.sign == 1) {    //未收藏
                 collectStr = @"收藏店铺";
             }else{
                 collectStr = @"已收藏";
             }
+            collectionStoreButton.hidden = NO;
         }
         [collectionStoreButton setTitle:collectStr forState:UIControlStateNormal];
 //        [collectionStoreButton setBackgroundImage:[UIImage imageNamed:@"收藏店铺"] forState:UIControlStateNormal];
@@ -902,6 +905,7 @@ static int pointY = 0;
     
 }
 
+//收藏店铺
 -(void)collectionStoreButtonClick{
     
     // 设置请求参数可变数组

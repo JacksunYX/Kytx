@@ -56,6 +56,7 @@
 @property (nonatomic, strong) UIButton *payselectButton;
 @property (nonatomic, strong) UIImageView *payImageview;
 @property (nonatomic, strong) UILabel *paytextLabel;
+@property (nonatomic, strong) UILabel *paySubtextLabel;
 @property (nonatomic, strong) UIImageView *paysmallImageview;
 
 @property(nonatomic,strong) NSMutableArray *business_infoarray;
@@ -77,6 +78,9 @@
     NSString *realpaymentstring;
     
     NSString *currentBalance;   //用户当前余额
+    NSString *consume_money;    //消费余额
+    NSString *money;            //余额(可以提现的)
+    
     BOOL showPaySection;    //是否显示支付分区
 }
 
@@ -342,9 +346,12 @@
     [HttpRequest postWithTokenURLString:NetRequestUrl(mywallet) parameters:dic isShowToastd:NO isShowHud:NO isShowBlankPages:NO success:^(id res) {
         if ([res[@"code"] integerValue] == 1) {
             currentBalance = [NSString stringWithFormat:@"%@",res[@"result"][@"total"]];
-            if (currentBalance.integerValue == 0) {
+            if (currentBalance.floatValue == 0) {
                 currentBalance = @"";
             }
+            consume_money = [NSString stringWithFormat:@"%@",res[@"result"][@"consume_money"]];
+            money = [NSString stringWithFormat:@"%@",res[@"result"][@"money"]];
+            
             [mytableview reloadData];
         }
     } failure:nil RefreshAction:nil];
@@ -780,16 +787,40 @@
     .heightIs(40);
     
     _paytextLabel = [[UILabel alloc] init];
-    _paytextLabel.font=PFR12Font;
+    _paytextLabel.font = PFR12Font;
     _paytextLabel.textColor=[UIColor blackColor];
     _paytextLabel.textAlignment=NSTextAlignmentLeft;
     _paytextLabel.contentMode=UIViewContentModeCenter;
     [_paytextLabel setText:paytextarray[indexPath.row]];
     [cell.contentView addSubview:_paytextLabel];
-    self.paytextLabel.sd_layout
-    .centerYEqualToView(cell.contentView)
-    .leftSpaceToView(_payImageview, 10)
-    .autoHeightRatio(0);
+    
+    _paySubtextLabel = [[UILabel alloc] init];
+    _paySubtextLabel.font = PFR12Font;
+    _paySubtextLabel.textColor = kColor999;
+    _paySubtextLabel.textAlignment = NSTextAlignmentLeft;
+    _paySubtextLabel.contentMode = UIViewContentModeCenter;
+    [cell.contentView addSubview:_paySubtextLabel];
+    
+    if ([_paytextLabel.text isEqualToString:@"余额"]) {
+        self.paytextLabel.sd_layout
+        .topEqualToView(_payImageview)
+        .leftSpaceToView(_payImageview, 10)
+        .autoHeightRatio(0);
+        
+        _paySubtextLabel.sd_layout
+        .leftEqualToView(self.paytextLabel)
+        .topSpaceToView(self.paytextLabel, 10)
+        .rightSpaceToView(cell.contentView, 10)
+        .autoHeightRatio(0)
+        ;
+        _paySubtextLabel.text = [NSString stringWithFormat:@"余额%@元，消费余额%@元",money,consume_money];
+        
+    }else{
+        self.paytextLabel.sd_layout
+        .centerYEqualToView(cell.contentView)
+        .leftSpaceToView(_payImageview, 10)
+        .autoHeightRatio(0);
+    }
     [self.paytextLabel setSingleLineAutoResizeWithMaxWidth:SCREEN_WIDTH/3];
     
     _paysmallImageview = [[UIImageView alloc] init];
@@ -1636,6 +1667,12 @@
     if (clickBalance == YES) {
         if (groupPay) { //余额不足，跳转到组合支付页面，默认组合支付宝
             GroupPayViewController *gpVC = [GroupPayViewController new];
+            gpVC.order_shop = self.order_snstring;
+            gpVC.consume_money = consume_money;
+            gpVC.money = money;
+            gpVC.total = currentBalance;
+            gpVC.payTotal = realpaymentstring;
+            gpVC.order_name = [_resultdic[@"order_goods"] firstObject][@"goods_name"];
             [self.navigationController pushViewController:gpVC animated:YES];
         }else{  //余额充足，直接弹框支付
             [self Determineifthereisapaymentpassword:@"yuezhifu"];

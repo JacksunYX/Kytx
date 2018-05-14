@@ -219,7 +219,6 @@
     
 }
 
-
 #pragma mark - 接受通知
 - (void)acceptanceNote
 {

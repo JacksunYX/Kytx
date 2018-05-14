@@ -938,6 +938,8 @@
 		8844A05620513A02003998E6 /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8844A04820513A01003998E6 /* ShareSDKConnector.framework */; };
 		884E2BC8209FEA4700181948 /* GetDiscountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E2BC7209FEA4700181948 /* GetDiscountView.m */; };
 		884E2BCB20A0540C00181948 /* GroupPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E2BCA20A0540B00181948 /* GroupPayViewController.m */; };
+		8850327B20A964E900B2D646 /* MyDiscountCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850327A20A964E900B2D646 /* MyDiscountCouponViewController.m */; };
+		8850327E20A9682B00B2D646 /* DiscountCouponChildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850327D20A9682B00B2D646 /* DiscountCouponChildVC.m */; };
 		8850AAFB201EC24F00F53604 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8850AAF6201EC24F00F53604 /* README.md */; };
 		8850AAFC201EC24F00F53604 /* UIImageView+CornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850AAFA201EC24F00F53604 /* UIImageView+CornerRadius.m */; };
 		8850AB55201EC38400F53604 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8850AAFE201EC38400F53604 /* AlipaySDK.bundle */; };
@@ -2968,6 +2970,10 @@
 		884E2BC7209FEA4700181948 /* GetDiscountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetDiscountView.m; sourceTree = "<group>"; };
 		884E2BC920A0540B00181948 /* GroupPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupPayViewController.h; sourceTree = "<group>"; };
 		884E2BCA20A0540B00181948 /* GroupPayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupPayViewController.m; sourceTree = "<group>"; };
+		8850327920A964E900B2D646 /* MyDiscountCouponViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDiscountCouponViewController.h; sourceTree = "<group>"; };
+		8850327A20A964E900B2D646 /* MyDiscountCouponViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDiscountCouponViewController.m; sourceTree = "<group>"; };
+		8850327C20A9682B00B2D646 /* DiscountCouponChildVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiscountCouponChildVC.h; sourceTree = "<group>"; };
+		8850327D20A9682B00B2D646 /* DiscountCouponChildVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiscountCouponChildVC.m; sourceTree = "<group>"; };
 		8850AAF6201EC24F00F53604 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8850AAF9201EC24F00F53604 /* UIImageView+CornerRadius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+CornerRadius.h"; sourceTree = "<group>"; };
 		8850AAFA201EC24F00F53604 /* UIImageView+CornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+CornerRadius.m"; sourceTree = "<group>"; };
@@ -4390,6 +4396,10 @@
 				885A2F27204D3F39001AFD2F /* CollectionGoodsViewController.m */,
 				885A2F28204D3F3A001AFD2F /* FocusOnStoreViewController.h */,
 				885A2F26204D3F39001AFD2F /* FocusOnStoreViewController.m */,
+				8850327920A964E900B2D646 /* MyDiscountCouponViewController.h */,
+				8850327A20A964E900B2D646 /* MyDiscountCouponViewController.m */,
+				8850327C20A9682B00B2D646 /* DiscountCouponChildVC.h */,
+				8850327D20A9682B00B2D646 /* DiscountCouponChildVC.m */,
 			);
 			path = " controller";
 			sourceTree = "<group>";
@@ -10548,6 +10558,7 @@
 				18FC029A200599F50085BED2 /* AddressModel.m in Sources */,
 				88D0AD1B2008D0A50088A73C /* TheLatestRecommendedCollectionViewCell.m in Sources */,
 				18FC0195200599F40085BED2 /* MBProgressHUD.m in Sources */,
+				8850327E20A9682B00B2D646 /* DiscountCouponChildVC.m in Sources */,
 				887AC476200C3CC90065838E /* ZXSMSMMSResultParser.m in Sources */,
 				887AC507200C3CC90065838E /* ZXPDF417DetectionResult.m in Sources */,
 				D51575DD2046A75700CA8A48 /* ShopAgreementViewController.m in Sources */,
@@ -11027,6 +11038,7 @@
 				882329EC20907F6800F7103B /* UIImage+Avatar.m in Sources */,
 				18FC0028200599F40085BED2 /* AFSecurityPolicy.m in Sources */,
 				1827EECA20075A2000E2FA00 /* NewsBanner.m in Sources */,
+				8850327B20A964E900B2D646 /* MyDiscountCouponViewController.m in Sources */,
 				88F041292021CD200040F250 /* SeleteAddressTableViewCell.m in Sources */,
 				18FC02A0200599F50085BED2 /* AddressTableViewCell.m in Sources */,
 				18036FF52012488500A6E662 /* LoveToGoShoppingViewController.m in Sources */,

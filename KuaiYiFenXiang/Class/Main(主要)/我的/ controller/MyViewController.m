@@ -26,6 +26,8 @@
 #import "FocusOnStoreViewController.h"
 #import "CollectionGoodsViewController.h"
 #import "MyShareViewController.h"
+#import "MyDiscountCouponViewController.h"
+
 @interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property(strong, nonatomic)UITableView *table;
@@ -589,11 +591,14 @@
 - (void)messageClick:(UIButton *)sender {
     
     if ([KYHeader checkNormalBackLogin]) {
-        MessageViewController *vc = [MessageViewController new];
-        [self.navigationController pushViewController:vc animated:YES];
+//        MessageViewController *vc = [MessageViewController new];
+//        [self.navigationController pushViewController:vc animated:YES];
+        MyDiscountCouponViewController *dcVC = [MyDiscountCouponViewController new];
+        [self.navigationController pushViewController:dcVC animated:YES];
     }
     
 }
+
 #pragma mark - 我的店铺
 - (void)store {
     
