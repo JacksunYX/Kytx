@@ -116,7 +116,13 @@
     
     if (!kStringIsEmpty(discountModel.content)) {
         NSString *str = [discountModel.content stringByAppendingString:@"  立即查看>>"];
-        NSMutableAttributedString *attText = [NSString RichtextString:str andstartstrlocation:str.length - 6 andendstrlocation:6 andchangcoclor:kColord40 andchangefont:self.youhuicontentLabel.font];
+        //添加富文本属性
+        NSMutableAttributedString *attText = [[NSMutableAttributedString alloc]initWithString:str];
+        NSRange rang = NSMakeRange(str.length - 6, 6);
+        [attText addAttribute:NSFontAttributeName value:Font(14) range:rang];
+        [attText addAttribute:NSForegroundColorAttributeName value:kColord40 range:rang];
+        [attText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:rang];
+        
         self.youhuicontentLabel.attributedText = attText;
     }
     

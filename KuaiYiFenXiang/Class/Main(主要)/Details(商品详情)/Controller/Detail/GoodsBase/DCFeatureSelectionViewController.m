@@ -373,9 +373,11 @@ static NSString *const DCFeatureChoseTopCellID = @"DCFeatureChoseTopCell";
 //    _featureAttr[indexPath.section].list[indexPath.row].isSelect = !_featureAttr[indexPath.section].list[indexPath.row].isSelect;
     
     //限制每组内的Item只能选中一个
+    //先把该区的规格清空
     for (NSInteger j = 0; j < _featureAttr[indexPath.section].list.count; j++) {
         _featureAttr[indexPath.section].list[j].isSelect = NO;
     }
+    //再把点击了的规格选定
     _featureAttr[indexPath.section].list[indexPath.row].isSelect = YES;
     
     //section，item 循环讲选中的所有Item加入数组中 ，数组mutableCopy初始化

@@ -108,6 +108,7 @@
     [self RequestCommodityDetailsData];
     
 }
+
 - (void)RequestCommodityDetailsData{
     
     _RootAttributeArray=[NSMutableArray new];
@@ -147,8 +148,8 @@
                                         
                                    for (NSDictionary *dic in filter_specarray) {
 
-                                       NSString *namestring=[dic objectForKey:@"name"];
-                                       NSDictionary *attr=@{
+                                       NSString *namestring = [[dic objectForKey:@"name"] trim];
+                                       NSDictionary *attr = @ {
                                                             @"attrname":namestring,
                                                             };
                                        
@@ -165,7 +166,7 @@
                                        
                                        for (NSString *infonamestring in resultarray) {
                                            NSDictionary *itemdic=@{
-                                                                   @"infoname":infonamestring,
+                                                                   @"infoname":[infonamestring trim],
 //                                                                   @"infoid":[dic objectForKey:@"item_id"],
                                                                    };
                                            [list addObject:itemdic];
@@ -208,6 +209,7 @@
                            }];
 
 }
+
 #pragma mark - initialize
 - (void)setUpInit
 {
@@ -617,8 +619,6 @@
     [self.view endEditing:YES];
 }
 
-
-
 - (void)share:(UIButton *)sender {
     
     NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
@@ -659,7 +659,6 @@
 
 }
 
-
 - (void)bottomButtonClick:(UIButton *)button
 {
     if (button.tag == 0) {
@@ -689,7 +688,6 @@
         });
     }
 }
-
 
 #pragma mark - 转场动画弹出控制器
 - (void)setUpAlterViewControllerWith:(UIViewController *)vc WithDistance:(CGFloat)distance WithDirection:(XWDrawerAnimatorDirection)vcDirection WithParallaxEnable:(BOOL)parallaxEnable WithFlipEnable:(BOOL)flipEnable

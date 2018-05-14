@@ -32,6 +32,13 @@
     [item1 setTitleTextAttributes:@{NSForegroundColorAttributeName : kColor999, NSFontAttributeName :Font(14)} forState:UIControlStateSelected];
     self.navigationItem.rightBarButtonItem = item1;
     
+    MCWeakSelf;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
+        [weakSelf.view endEditing:YES];
+    }];
+    tap.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:tap];
+    
     [self configNavi];
     
     [self configUI];
@@ -59,7 +66,7 @@
 
 
 - (void)configUI {
-    self.view.backgroundColor = kWhiteColor;
+    self.view.backgroundColor = BACKVIEWCOLOR;
     __block NSString *imagename;
     [self.cardDict enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSString *obj, BOOL * _Nonnull stop) {
         if ([obj isEqualToString:self.bank_id]) {
@@ -125,6 +132,14 @@
         make.top.equalTo(imageview.mas_centerY).offset(5);
     }];
     
+    UIView *backView1 = [UIView new];
+    backView1.backgroundColor = BACKVIEWCOLOR;
+    [scrollView addSubview:backView1];
+    [backView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(scrollView);
+        make.top.equalTo(aview.mas_bottom).offset(15);
+        make.height.mas_equalTo(32);
+    }];
     
     
     NSString *balance = [NSString stringWithFormat:@"可提现金额 %@ 元",self.money];
@@ -138,43 +153,55 @@
     dlabel.font = Font(13);
     dlabel.attributedText = str;
     
-    [scrollView addSubview:dlabel];
+    [backView1 addSubview:dlabel];
     [dlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(scrollView).offset(15);
-        make.top.equalTo(line1.mas_bottom).offset(15);
+        make.left.equalTo(backView1).offset(15);
+        make.centerY.equalTo(backView1);
+        make.right.equalTo(backView1).offset(- 15);
     }];
     
-    UILabel *clabel = [self labelWithText:@"提现金额"];
-    
-    [scrollView addSubview:clabel];
-    [clabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(aview);
-        make.top.equalTo(dlabel.mas_bottom).offset(15);
+    UIView *backView2 = [UIView new];
+    backView2.backgroundColor = kWhiteColor;
+    [scrollView addSubview:backView2];
+    [backView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(scrollView);
+        make.top.equalTo(backView1.mas_bottom);
+        make.height.mas_equalTo(44);
     }];
     
     UITextField *tf = [[UITextField alloc] init];
-    
     tf.textColor = kColor333;
+    tf.placeholder = @"输入金额为100的倍数";
     self.tf = tf;
     tf.delegate = self;
-    tf.font = kFont(23);
+    tf.font = kFont(15);
     tf.keyboardType = UIKeyboardTypeDecimalPad;
     
-    UILabel *left = [self labelWithText:@"￥"];
-    left.font = kFont(23);
-    left.frame = CGRectMake(0, 0, 30, 40);
-    
-    tf.leftView = left;
-    tf.leftViewMode = UITextFieldViewModeAlways;
+    UILabel *rightView = [self labelWithText:@"元"];
+    rightView.font = kFont(15);
+    rightView.frame = CGRectMake(0, 0, 20, 44);
+
+    tf.rightView = rightView;
+    tf.rightViewMode = UITextFieldViewModeAlways;
     
     [scrollView addSubview:tf];
     [tf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(clabel.mas_bottom).offset(15);
-        make.left.equalTo(clabel);
-        make.right.equalTo(scrollView);
-        make.height.mas_equalTo(40);
+//        make.left.equalTo(clabel.mas_right).offset(10);
+//        make.centerY.equalTo(clabel);
+        make.top.equalTo(backView1.mas_bottom);
+        make.right.equalTo(scrollView).offset(-15);
+        make.height.mas_equalTo(44);
     }];
     
+    UILabel *clabel = [self labelWithText:@"提现金额"];
+    [scrollView addSubview:clabel];
+    [clabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(aview);
+        make.right.equalTo(tf.mas_left).offset(- 10);
+        make.centerY.equalTo(tf);
+//        make.top.equalTo(dlabel.mas_bottom).offset(15);
+    }];
+    [clabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     
     
     UIView *line2 = [UIView new];
@@ -186,20 +213,20 @@
         make.left.equalTo(scrollView).offset(15);
         make.right.equalTo(scrollView).offset(-15);
         make.height.mas_equalTo(1);
-        make.top.equalTo(tf.mas_bottom).offset(15);
+        make.top.equalTo(tf.mas_bottom).offset(0.5);
     }];
     
-    UILabel *elabel = [self labelWithText:@"支付密码"];
-    
-    [scrollView addSubview:elabel];
-    [elabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(line2);
-        make.top.equalTo(line2.mas_bottom).offset(15);
+    UIView *backView3 = [UIView new];
+    backView3.backgroundColor = kWhiteColor;
+    [scrollView addSubview:backView3];
+    [backView3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(scrollView);
+        make.top.equalTo(backView2.mas_bottom).offset(0.5);
+        make.height.mas_equalTo(44);
     }];
-    [elabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     
     UITextField *tf2 = [[UITextField alloc] init];
-    
+    tf2.placeholder = @"请输入支付密码";
     tf2.secureTextEntry = YES;
     tf2.textColor = kColor333;
     self.tf2 = tf2;
@@ -207,15 +234,22 @@
     
     [scrollView addSubview:tf2];
     [tf2 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(elabel.mas_bottom).offset(15);
-        make.left.equalTo(elabel.mas_right).offset(10);
-        make.centerY.equalTo(elabel);
+        make.top.equalTo(line2.mas_bottom);
         make.right.equalTo(scrollView).offset(-15);
         make.height.mas_equalTo(44);
     }];
     
-    UIView *line3 = [UIView new];
+    UILabel *elabel = [self labelWithText:@"支付密码"];
+    [scrollView addSubview:elabel];
+    [elabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(aview);
+        make.right.equalTo(tf2.mas_left).offset(- 10);
+        make.centerY.equalTo(tf2);
+    }];
+    [elabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     
+    
+    UIView *line3 = [UIView new];
     line3.backgroundColor = kDefaultBGColor;
     
     [scrollView addSubview:line3];
@@ -223,7 +257,7 @@
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
         make.height.mas_equalTo(1);
-        make.top.equalTo(elabel.mas_bottom).offset(15);
+        make.top.equalTo(tf2.mas_bottom).offset(0.5);
     }];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -244,6 +278,25 @@
         make.left.equalTo(scrollView).offset(30);
         make.right.equalTo(scrollView).offset(-30);
     }];
+    
+    //提现规则
+    UIWebView *ruleView = [UIWebView new];
+    ruleView.scrollView.showsVerticalScrollIndicator = NO;
+//    ruleView.scrollView.scrollEnabled = NO;
+    ruleView.scrollView.backgroundColor = BACKVIEWCOLOR;
+    ruleView.backgroundColor = BACKVIEWCOLOR;
+    [scrollView addSubview:ruleView];
+    [ruleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(scrollView);
+        make.top.equalTo(btn.mas_bottom).offset(10);
+//        make.bottom.equalTo(scrollView.mas_bottom).offset(- 15);
+        make.height.mas_equalTo(350);
+    }];
+    NSString *ruleStr = [DefaultDomainName stringByAppendingString:cashoutrule_url];
+    NSLog(@"url地址：%@",ruleStr);
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:ruleStr]];
+    [ruleView loadRequest:request];
+    
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -317,12 +370,12 @@
 }
 
 
-//- (void)right:(UIBarButtonItem *)sender {
-//    KYWebViewController *vc = [KYWebViewController new];
-//    vc.web_url = cashoutrule_url;
-//    vc.name = @"提现规则";
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
+- (void)right2:(UIBarButtonItem *)sender {
+    KYWebViewController *vc = [KYWebViewController new];
+    vc.web_url = cashoutrule_url;
+    vc.name = @"提现规则";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 // 提现记录
 - (void)right:(UIBarButtonItem *)sender {
