@@ -39,7 +39,7 @@
 #define FormalShopShareDomain @""
 
 //拼接分享商品或商家的链接地址
-#define JoinShareWebUrlStr(webUrl,goods_id,business_id,user_id,token) [webUrl stringByAppendingString:[NSString stringWithFormat:@"?goods_id=%@&business_id=%@&user_id=%@&token=%@",goods_id,business_id,user_id,token]]
+#define JoinShareWebUrlStr(webUrl,goods_id,business_id,mobile) [webUrl stringByAppendingString:[NSString stringWithFormat:@"?goods_id=%@&business_id=%@&mobile=%@",goods_id,business_id,mobile]]
 
 
 //获取用户的token的令牌

@@ -620,12 +620,13 @@
 
 - (void)share:(UIButton *)sender {
     
-    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
-    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+//    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
+//    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+    NSString *mobile = GetSaveString([USER_DEFAULT objectForKey:@"mobile"]);
     NSString *good_id = model.goods_id;
     NSString *business_id = model.business_id;
     //分享链接
-    NSString *goodShareUrlStr = JoinShareWebUrlStr(GoodShareUrl, good_id, business_id, user_id, token);
+    NSString *goodShareUrlStr = JoinShareWebUrlStr(GoodShareUrl, good_id, business_id, mobile);
     //分享图片数组
     NSArray* imageArray;
     if (!kStringIsEmpty(model.original_img)) {

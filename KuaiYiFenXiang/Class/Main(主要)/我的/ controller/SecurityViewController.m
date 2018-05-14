@@ -124,6 +124,9 @@
 - (void)signout:(UIButton *)sender {
     [USER_DEFAULT setObject:@"" forKey:@"token"];
     [USER_DEFAULT setObject:@"" forKey:@"user_id"];
+    [USER_DEFAULT setObject:@"" forKey:@"mobile"];
+    [USER_DEFAULT setObject:@"" forKey:@"nickname"];
+    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.isLogin = NO;
     [self.navigationController popToRootViewControllerAnimated:NO];

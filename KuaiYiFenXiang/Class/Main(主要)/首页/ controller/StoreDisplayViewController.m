@@ -843,11 +843,12 @@ static int pointY = 0;
 
 - (void)share:(UIButton *)sender {
     
-    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
-    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+//    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
+//    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+    NSString *mobile = GetSaveString([USER_DEFAULT objectForKey:@"mobile"]);
     NSString *business_id = self.business_idstring;
     //分享链接
-    NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, @"",business_id, user_id, token);
+    NSString *shopShareUrlStr = JoinShareWebUrlStr(ShopShareUrl, @"",business_id, mobile);
     
     //分享的店铺图标
     NSArray* imageArray;

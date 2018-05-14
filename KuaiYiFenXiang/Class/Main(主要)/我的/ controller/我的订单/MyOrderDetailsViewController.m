@@ -92,9 +92,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 注册一个监听事件。第三个参数的事件名， 系统用这个参数来区别不同事件。
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResponse:) name:@"AliPayResult" object:nil];
-    
     self.navigationItem.title = @"订单详情";
     
     //设置自己的表视图
@@ -1678,6 +1675,8 @@
             [self Determineifthereisapaymentpassword:@"yuezhifu"];
         }
     }else{  //只选择了支付宝支付
+        // 注册一个监听事件。第三个参数的事件名， 系统用这个参数来区别不同事件。
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResponse:) name:@"AliPayResult" object:nil];
         [self doAPPay];
     }
    

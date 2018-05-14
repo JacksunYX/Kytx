@@ -145,6 +145,7 @@
     //设置账号输入框
     usernametf=[[YYFImgTextFiled  alloc]init];
     [usernametf addTarget:self action:@selector(textfilechange:) forControlEvents:UIControlEventEditingChanged];
+    usernametf.keyboardType = UIKeyboardTypeNumberPad;
     [scrollView addSubview:usernametf];
     usernametf.sd_layout
     .centerXEqualToView(scrollView)
@@ -373,6 +374,8 @@
                                            [USER_DEFAULT setObject:[NSString stringWithFormat:@"%@",[userinformationdic objectForKey:@"token"]] forKey:@"token"];
                                            [USER_DEFAULT setObject:[NSString stringWithFormat:@"%@",[userinformationdic objectForKey:@"user_id"]] forKey:@"user_id"];
                                            [USER_DEFAULT setObject:[NSString stringWithFormat:@"%@",[userinformationdic objectForKey:@"nickname"]] forKey:@"nickname"];
+                                           [USER_DEFAULT setObject:[NSString stringWithFormat:@"%@",[userinformationdic objectForKey:@"mobile"]] forKey:@"mobile"];
+                                           
                                            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                                            delegate.isLogin = YES;
                                            [USER_DEFAULT synchronize];

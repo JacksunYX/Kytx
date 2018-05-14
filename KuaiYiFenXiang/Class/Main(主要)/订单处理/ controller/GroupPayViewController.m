@@ -39,7 +39,7 @@
     NSArray *titleArr = @[@"余额",@"支付宝"];
     NSArray *subTitleArr = @[[NSString stringWithFormat:@"可用余额%@元",self.money],@""];
     aliPayNum = [NSString stringWithFormat:@"%.2f",self.payTotal.floatValue - self.total.floatValue];
-    aliPayNum = @"0.01";
+//    aliPayNum = @"0.01";    //测试
     NSArray *moneyArr = @[self.total,aliPayNum];
     NSMutableArray *payModelArr = [NSMutableArray new];
     for (int i = 0; i < imgArr.count; i ++) {
@@ -125,6 +125,8 @@
 -(void)pay
 {
 //    LRToast(@"功能正在测试阶段~");
+    // 注册一个监听事件。第三个参数的事件名， 系统用这个参数来区别不同事件。
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResponse:) name:@"AliPayResult" object:nil];
     [self doAPPay];
 }
 
