@@ -967,6 +967,7 @@
 		885E6780200C9C9300607874 /* TheStoreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E677F200C9C9300607874 /* TheStoreCollectionViewCell.m */; };
 		885E6783200C9F8500607874 /* TheStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E6782200C9F8500607874 /* TheStoreModel.m */; };
 		885E6786200CB4AE00607874 /* GoodsIsEmptyHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 885E6785200CB4AE00607874 /* GoodsIsEmptyHeadView.m */; };
+		886C82EB20AA6EB500BA774A /* DiscountCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 886C82EA20AA6EB500BA774A /* DiscountCouponCell.m */; };
 		886CB7322007926B00730A2B /* NinePiecesOfNineCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 886CB7312007926B00730A2B /* NinePiecesOfNineCollectionViewCell.m */; };
 		886CB735200795EC00730A2B /* GoodsUnifiedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 886CB734200795EC00730A2B /* GoodsUnifiedModel.m */; };
 		8872CC88204E29F9000B7732 /* DCColonInsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8872CC86204E29F8000B7732 /* DCColonInsView.m */; };
@@ -3088,6 +3089,8 @@
 		885E6782200C9F8500607874 /* TheStoreModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TheStoreModel.m; sourceTree = "<group>"; };
 		885E6784200CB4AE00607874 /* GoodsIsEmptyHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsIsEmptyHeadView.h; sourceTree = "<group>"; };
 		885E6785200CB4AE00607874 /* GoodsIsEmptyHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsIsEmptyHeadView.m; sourceTree = "<group>"; };
+		886C82E920AA6EB500BA774A /* DiscountCouponCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiscountCouponCell.h; sourceTree = "<group>"; };
+		886C82EA20AA6EB500BA774A /* DiscountCouponCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiscountCouponCell.m; sourceTree = "<group>"; };
 		886CB7302007926B00730A2B /* NinePiecesOfNineCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NinePiecesOfNineCollectionViewCell.h; sourceTree = "<group>"; };
 		886CB7312007926B00730A2B /* NinePiecesOfNineCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NinePiecesOfNineCollectionViewCell.m; sourceTree = "<group>"; };
 		886CB733200795EC00730A2B /* GoodsUnifiedModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsUnifiedModel.h; sourceTree = "<group>"; };
@@ -4483,6 +4486,8 @@
 				8872CC99204EA005000B7732 /* OfflineOrdersTableViewCell.m */,
 				D5C9097620521FAD00D6BBBD /* ContactTableViewCell.h */,
 				D5C9097720521FAD00D6BBBD /* ContactTableViewCell.m */,
+				886C82E920AA6EB500BA774A /* DiscountCouponCell.h */,
+				886C82EA20AA6EB500BA774A /* DiscountCouponCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -10894,6 +10899,7 @@
 				D5E2E77E20214D0400682862 /* ChangeNikeNameViewController.m in Sources */,
 				18FC0205200599F50085BED2 /* TZImageManager.m in Sources */,
 				18524C272005E06B00E77146 /* NearViewController.m in Sources */,
+				886C82EB20AA6EB500BA774A /* DiscountCouponCell.m in Sources */,
 				887AC494200C3CC90065838E /* ZXByteArray.m in Sources */,
 				D541CBC1202C1C2B0029BBEF /* PointRankTableViewCell.m in Sources */,
 				18FC0286200599F50085BED2 /* UIScrollView+HeaderScaleImage.m in Sources */,

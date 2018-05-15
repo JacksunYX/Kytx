@@ -118,4 +118,21 @@
 }
 
 
+//绘制虚线
++(UIImage *)imageWithLineWithImageView:(UIImageView *)imageView{
+    CGFloat width = imageView.frame.size.width;
+    CGFloat height = imageView.frame.size.height;
+    UIGraphicsBeginImageContext(imageView.frame.size);
+    [imageView.image drawInRect:CGRectMake(0, 0, width, height)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+    CGFloat lengths[] = {2,1};
+    CGContextRef line = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(line, HexColor(ffffff).CGColor);
+    CGContextSetLineDash(line, 0, lengths, 1);
+    CGContextMoveToPoint(line, 0, 1);
+    CGContextAddLineToPoint(line, width-2, 1);
+    CGContextStrokePath(line);
+    return  UIGraphicsGetImageFromCurrentImageContext();
+}
+
 @end

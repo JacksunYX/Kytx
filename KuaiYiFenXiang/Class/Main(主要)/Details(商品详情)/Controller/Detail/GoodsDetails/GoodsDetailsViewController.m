@@ -316,28 +316,26 @@
             DCGoodDetailVc.goods_id=s_id;
             [self.navigationController pushViewController:DCGoodDetailVc animated:YES];
         });    };
-    AppDelegate *de = [UIApplication sharedApplication].delegate;
+    
     //点击收藏
     context[@"login"] = ^{
+        
         NSLog(@"点击了收藏");
         
-        if (!de.isLogin) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //进入登录界面
-                enterNavigationController *loginVC = [enterNavigationController new];
-                //回调刷新一下界面
-                MCWeakSelf;
-                loginVC.backHandleBlock = ^{
-                    [weakSelf.webView.scrollView.mj_header beginRefreshing];
-                };
-                loginVC.normalBack = YES;
-                YYFNavigationController *loginNvi = [[YYFNavigationController alloc]initWithRootViewController:loginVC];
-                [self presentViewController:loginNvi animated:YES completion:nil];
-            });
-        }
+        GCDAfter1s(^{
+            //进入登录界面
+            enterNavigationController *loginVC = [enterNavigationController new];
+            //回调刷新一下界面
+            MCWeakSelf;
+            loginVC.backHandleBlock = ^{
+                [weakSelf.webView.scrollView.mj_header beginRefreshing];
+            };
+            loginVC.normalBack = YES;
+            YYFNavigationController *loginNvi = [[YYFNavigationController alloc]initWithRootViewController:loginVC];
+            [self presentViewController:loginNvi animated:YES completion:nil];
+        });
+        
     };
-    
-    
     
 }
 

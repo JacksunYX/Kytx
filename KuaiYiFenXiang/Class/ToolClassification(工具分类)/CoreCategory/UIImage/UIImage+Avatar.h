@@ -21,4 +21,13 @@
  */
 + (UIImage *)imagewithBgImage:(UIImage *)bgImage addLogoImage:(UIImage *)LogoImage ofTheSize:(CGSize)size;
 
+
+/**
+ 绘制虚线
+
+ @param imageView 给一个容器
+ @return 返回虚线图片
+ */
++(UIImage *)imageWithLineWithImageView:(UIImageView *)imageView;
+
 @end
