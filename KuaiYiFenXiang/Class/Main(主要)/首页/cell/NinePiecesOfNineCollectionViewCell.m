@@ -71,8 +71,10 @@
     [self.platenameLabel setText:GeneralGoodsModel.goods_name];
     
     [self.packagemailImageView  setImage:[UIImage imageNamed:@"nine_packagemail"]];
+    self.packagemailImageView.hidden = YES;
     
     [self.newsImageView  setImage:[UIImage imageNamed:@"nine_news"]];
+    self.newsImageView.hidden = YES;
     
     //中划线
     NSDictionary *attribtDic =@{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};

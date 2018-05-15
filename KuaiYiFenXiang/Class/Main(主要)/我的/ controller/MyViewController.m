@@ -591,10 +591,10 @@
 - (void)messageClick:(UIButton *)sender {
     
     if ([KYHeader checkNormalBackLogin]) {
-//        MessageViewController *vc = [MessageViewController new];
-//        [self.navigationController pushViewController:vc animated:YES];
-        MyDiscountCouponViewController *dcVC = [MyDiscountCouponViewController new];
-        [self.navigationController pushViewController:dcVC animated:YES];
+        MessageViewController *vc = [MessageViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+//        MyDiscountCouponViewController *dcVC = [MyDiscountCouponViewController new];
+//        [self.navigationController pushViewController:dcVC animated:YES];
     }
     
 }

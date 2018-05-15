@@ -130,7 +130,7 @@
     if (showPaySection) {
         [self getUserBalance];
     }
-//    currentBalance = @"";
+    //    currentBalance = @"";
     
     [self loadData];
     
@@ -181,12 +181,25 @@
                                     
                                     if (codeStr.intValue==1) {
                                         
-                                        self.lefttextarray=@[@"商品总额",@"总运费",@"拼团优惠",@"活动优惠",@"实付款"];
+                                        self.lefttextarray=@[
+                                                             @"商品总额",
+                                                             @"总运费",
+                                                             @"余额使用(含消费余额)",
+                                                             @"支付宝支付",
+                                                             
+                                                             @"实付款",
+                                                             ];
                                         
                                         NSString *total_amountstring=[result objectForKey:@"total_amount"];
                                         NSString *shipping_pricestring=[result objectForKey:@"shipping_price"];
                                         realpaymentstring=[result objectForKey:@"order_amount"];
-                                        self.righttextarray=@[[NSString stringWithFormat:@"￥%.2f",total_amountstring.floatValue],[NSString stringWithFormat:@"¥%.2f", shipping_pricestring.floatValue],@"-￥0.00",@"-￥0.00",[NSString stringWithFormat:@"¥%.2f",realpaymentstring.floatValue]];
+                                        self.righttextarray=@[
+                                                              [NSString stringWithFormat:@"￥%.2f",total_amountstring.floatValue],
+                                                              [NSString stringWithFormat:@"¥%.2f", shipping_pricestring.floatValue],
+                                                              [NSString stringWithFormat:@"￥%.2f",[result[@"gold_money"] floatValue]],
+                                                              [NSString stringWithFormat:@"￥%.2f",[result[@"ali_money"] floatValue]],
+                                                              
+                                                              [NSString stringWithFormat:@"¥%.2f",realpaymentstring.floatValue]];
                                         
                                         NSString *addtimestring=[result objectForKey:@"add_time"];
                                         NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
@@ -195,7 +208,9 @@
                                         } else {
                                             self.canPush = YES;
                                         }
-                                        self.payinformationarray=@[[NSString stringWithFormat:@"下单时间:%@",[NSString_Category Timestamptofixedformattime:@"YYYY-MM-dd HH:mm:ss" andTimeInterval:addtimestring.integerValue]], [NSString stringWithFormat:@"支付方式:%@",[result objectForKey:@"pay_name"]],[NSString stringWithFormat:@"订单编号:%@",[result objectForKey:@"order_sn"]]];
+                                        self.payinformationarray = @[
+                                                                     [NSString stringWithFormat:@"下单时间:%@",[NSString_Category Timestamptofixedformattime:@"YYYY-MM-dd HH:mm:ss" andTimeInterval:addtimestring.integerValue]], /*[NSString stringWithFormat:@"支付方式:%@",[result objectForKey:@"pay_name"]],*/
+                                                    [NSString stringWithFormat:@"订单编号:%@",[result objectForKey:@"order_sn"]]];
                                         
                                         _resultdic=[result mutableCopy];
                                         [self setbottomview];
@@ -372,7 +387,7 @@
         return self.lefttextarray.count;
         
     }else if(section==self.business_infoarray.count+2){
-
+        
         if (showPaySection) {
             if (kStringIsEmpty(currentBalance)) {
                 return _thirdPayImgArray.count;
@@ -459,8 +474,8 @@
                 [line removeFromSuperview];
                 [cell.textLabel setFont:PFR12Font];
                 [cell.detailTextLabel setFont:PFR12Font];
-                [cell.textLabel setTextColor:[UIColor lightGrayColor]];
-                [cell.detailTextLabel setTextColor:[UIColor lightGrayColor]];
+                [cell.textLabel setTextColor:HexColor(666666)];
+                [cell.detailTextLabel setTextColor:HexColor(666666)];
             }
             [cell.textLabel setText:self.lefttextarray[indexPath.row]];
             [cell.detailTextLabel setText:self.righttextarray[indexPath.row]];
@@ -561,21 +576,28 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    if (section!=0&&section!=self.business_infoarray.count+1&&section!=self.business_infoarray.count+3) {
-//        if (section == self.business_infoarray.count+2) {
-//            if (self.noShowBot) {
-//                return 0;
-//            }
-//            return [self.btntextstring isEqualToString:@"去付款"]?44:0.01;
-//        }else{
-//            return 44;
-//        }
-//    }else{
-//        return 0.01;
-//    }
+    //    if (section!=0&&section!=self.business_infoarray.count+1&&section!=self.business_infoarray.count+3) {
+    //        if (section == self.business_infoarray.count+2) {
+    //            if (self.noShowBot) {
+    //                return 0;
+    //            }
+    //            return [self.btntextstring isEqualToString:@"去付款"]?44:0.01;
+    //        }else{
+    //            return 44;
+    //        }
+    //    }else{
+    //        return 0.01;
+    //    }
     
     if (section == self.business_infoarray.count) {
         return 44;
+    }else if (section == self.business_infoarray.count + 1) {
+        
+        if (showPaySection) {   //说明是未支付的订单
+            return 0.01;
+        }
+        return 38;  //已支付的订单，需要展示支付方式
+        
     }else if(section == self.business_infoarray.count + 2||section == self.business_infoarray.count + 3){
         //需要展示支付分区
         if (showPaySection) {
@@ -677,6 +699,7 @@
                 }else if(section == self.business_infoarray.count + 3){
                     if (kStringIsEmpty(currentBalance)) {
                         [titlelabel setText:@""];
+                        [line removeFromSuperview];
                     }else{
                         [titlelabel setText:@"支付方式"];
                     }
@@ -695,6 +718,54 @@
         return headview;
         
     }else{
+        //已支付
+        if (!showPaySection&&section!=0) {
+            UIView *headview=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 38)];
+            [headview setBackgroundColor:[UIColor whiteColor]];
+            
+            UILabel *titlelabel = [[UILabel alloc]init];
+            [titlelabel setTextColor:HexColor(666666)];
+            [titlelabel setFont:PFR12Font];
+            [headview addSubview:titlelabel];
+            titlelabel.sd_layout
+            .centerYEqualToView(headview)
+            .leftSpaceToView(headview, 15)
+            .widthIs(SCREEN_WIDTH/2)
+            .heightIs(headview.height);
+            [titlelabel setText:@"支付方式"];
+            
+            UILabel *rightLabel = [[UILabel alloc]init];
+            [rightLabel setTextColor:kColord40];
+            [rightLabel setFont:PFR12Font];
+            rightLabel.textAlignment = NSTextAlignmentRight;
+            [headview addSubview:rightLabel];
+            rightLabel.sd_layout
+            .centerYEqualToView(headview)
+            .rightSpaceToView(headview, 15)
+            .widthIs(SCREEN_WIDTH/2)
+            .heightIs(headview.height);
+            
+            //分割线
+            UIView *line = [UIView new];
+            line.backgroundColor = CELLBORDERCOLOR;
+            [headview addSubview:line];
+            line.sd_layout
+            .topSpaceToView(titlelabel, 0.5)
+            .leftEqualToView(headview)
+            .rightEqualToView(headview)
+            .heightIs(0.5)
+            ;
+            
+            NSInteger payType = [self.resultdic[@"pay_array"] integerValue];
+            if (payType == 1) {
+                rightLabel.text = @"组合支付";
+            }else{
+                rightLabel.text = self.resultdic[@"pay_name"];
+            }
+            
+            return headview;
+            
+        }
         return nil;
     }
     
@@ -1227,21 +1298,21 @@
         LRToast(@"请选择收货地址");
     }else{
         [self processPayLogic];
-//        [_payselectarray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            if ([obj isEqualToString:@"1"]) {
-//                if (idx==0) {
-//                    [self doAPPay];
-//                }else  if (idx==1) {
-//                    if (ShowUPPay) {
-//                        [self doUPPay];
-//                    }else{
-//                        [self Determineifthereisapaymentpassword:@"yuezhifu"];
-//                    }
-//                } if (idx==2) {
-//                    [self Determineifthereisapaymentpassword:@"yuezhifu"];
-//                }
-//            }
-//        }];
+        //        [_payselectarray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        //            if ([obj isEqualToString:@"1"]) {
+        //                if (idx==0) {
+        //                    [self doAPPay];
+        //                }else  if (idx==1) {
+        //                    if (ShowUPPay) {
+        //                        [self doUPPay];
+        //                    }else{
+        //                        [self Determineifthereisapaymentpassword:@"yuezhifu"];
+        //                    }
+        //                } if (idx==2) {
+        //                    [self Determineifthereisapaymentpassword:@"yuezhifu"];
+        //                }
+        //            }
+        //        }];
         
     }
     
@@ -1679,7 +1750,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResponse:) name:@"AliPayResult" object:nil];
         [self doAPPay];
     }
-   
+    
 }
 
 

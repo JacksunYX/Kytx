@@ -252,7 +252,8 @@ static int pageNum=0;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     // 获取cell高度
     //    return [mytableview cellHeightForIndexPath:indexPath model:self.dataSource[indexPath.section] keyPath:@"TheAnnouncementModel" cellClass:[TheAnnouncementTableViewCell class] contentViewWidth:[self cellContentViewWith]];
-    return 215;
+    return (ScreenW - 40)/3 + 105;
+//    return 215;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

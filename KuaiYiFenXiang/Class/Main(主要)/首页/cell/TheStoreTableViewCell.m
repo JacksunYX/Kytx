@@ -228,7 +228,9 @@
     self.shopIntroductionLabel.sd_layout
     .topSpaceToView(self.storeLogoImageView, 10)
     .leftEqualToView(self.storeLogoImageView)
-    .autoHeightRatio(0);
+//    .autoHeightRatio(0)
+    .heightIs(15)
+    ;
     [self.shopIntroductionLabel setSingleLineAutoResizeWithMaxWidth:self.contentView.width-30];
     
     
