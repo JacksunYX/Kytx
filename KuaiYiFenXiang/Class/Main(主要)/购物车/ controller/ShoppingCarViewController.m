@@ -543,9 +543,6 @@
                                         
                                         [self.navigationController pushViewController:mstovc animated:YES];
                                         
-                                    }else
-                                    {
-                                        LRToast(responseObject[@"code"]);
                                     }
                                     
                                 } failure:^(NSError *error) {

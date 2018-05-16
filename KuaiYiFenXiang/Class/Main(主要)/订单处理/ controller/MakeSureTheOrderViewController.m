@@ -96,12 +96,20 @@
     mytableview.dataSource=self;
     [self.view addSubview:mytableview];
     
-    self.lefttextarray=@[@"商品总额",@"总运费",@"拼团优惠",@"活动优惠",@"实付款"];
+    self.lefttextarray = @[
+                          /* @"商品总额",
+                           @"总运费",
+                           @"实付款"*/
+                           ];
     
     NSString *total_amountstring=[_resultdic objectForKey:@"total_amount"];
     NSString *shipping_pricestring=[_resultdic objectForKey:@"shipping_price"];
     realpaymentstring=[_resultdic objectForKey:@"order_amount"];
-    self.righttextarray=@[[NSString stringWithFormat:@"￥%.2f",total_amountstring.floatValue],[NSString stringWithFormat:@"¥%.2f", shipping_pricestring.floatValue],@"-￥0.00",@"-￥0.00",[NSString stringWithFormat:@"¥%.2f",realpaymentstring.floatValue]];
+    self.righttextarray = @[
+                            /*[NSString stringWithFormat:@"￥%.2f",total_amountstring.floatValue],
+                            [NSString stringWithFormat:@"¥%.2f", shipping_pricestring.floatValue],
+                            [NSString stringWithFormat:@"¥%.2f",realpaymentstring.floatValue]*/
+                            ];
     
     //组合支付
     self.payimgarray = @[@"yue"];
@@ -477,9 +485,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section==self.business_infoarray.count+1) {
+    if (section == self.business_infoarray.count + 1) {
         return 10;
     }else{
+        if (section != 0 && section <= self.business_infoarray.count) {
+            return 100;
+        }
+        
         return 10;
     }
 }
@@ -558,10 +570,108 @@
         
         return headview;
         
-    }else{
-        return nil;
     }
     
+    return nil;
+    
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section != 0 && section <= self.business_infoarray.count) {
+        NSDictionary *dic = self.business_infoarray[section-1];
+        NSArray *goodsArr = dic[@"order_goodsarray"];
+        UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenW, 100)];
+        footView.backgroundColor = kWhiteColor;
+        UILabel *goodsTotalLeft = [self footLabel];
+        UILabel *goodsTotalRight = [self footLabel];
+        UILabel *freightTotalLeft = [self footLabel];
+        UILabel *freightTotalRight = [self footLabel];
+        UIView *line = [UIView new];
+        UILabel *totalNum = [self footLabel];
+        UILabel *realPay = [self footLabel];
+        
+        [footView sd_addSubviews:@[
+                                   goodsTotalLeft,
+                                   goodsTotalRight,
+                                   freightTotalLeft,
+                                   freightTotalRight,
+                                   line,
+                                   totalNum,
+                                   realPay,
+                                   
+                                   ]];
+        //布局
+        goodsTotalLeft.sd_layout
+        .leftSpaceToView(footView, 15)
+        .topSpaceToView(footView, 10)
+        .autoHeightRatio(0)
+        ;
+        [goodsTotalLeft setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
+        goodsTotalLeft.text = @"商品总额";
+        
+        goodsTotalRight.sd_layout
+        .rightSpaceToView(footView, 15)
+        .centerYEqualToView(goodsTotalLeft)
+        .autoHeightRatio(0)
+        ;
+        [goodsTotalRight setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
+        goodsTotalRight.text = @"￥100.00";
+        goodsTotalRight.textColor = kColord40;
+        
+        freightTotalLeft.sd_layout
+        .leftEqualToView(goodsTotalLeft)
+        .topSpaceToView(goodsTotalLeft, 10)
+        .autoHeightRatio(0)
+        ;
+        [freightTotalLeft setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
+        freightTotalLeft.text = @"总运费";
+        
+        freightTotalRight.sd_layout
+        .rightSpaceToView(footView, 15)
+        .centerYEqualToView(freightTotalLeft)
+        .autoHeightRatio(0)
+        ;
+        [freightTotalRight setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
+        freightTotalRight.text = @"￥0.00";
+        freightTotalRight.textColor = kColord40;
+        
+        line.sd_layout
+        .topSpaceToView(freightTotalLeft, 10)
+        .leftEqualToView(footView)
+        .rightEqualToView(footView)
+        .heightIs(1)
+        ;
+        line.backgroundColor = BACKVIEWCOLOR;
+        
+        totalNum.sd_layout
+        .topSpaceToView(line, 10)
+        .widthIs(ScreenW/2)
+        .leftEqualToView(footView)
+        .autoHeightRatio(0)
+        ;
+        totalNum.textAlignment = NSTextAlignmentCenter;
+        totalNum.text = [NSString stringWithFormat:@"共%ld件商品",goodsArr.count];
+        
+        realPay.sd_layout
+        .topSpaceToView(line, 10)
+        .widthIs(ScreenW/2)
+        .rightEqualToView(footView)
+        .autoHeightRatio(0)
+        ;
+        realPay.textAlignment = NSTextAlignmentCenter;
+        realPay.text = @"实付款：￥100.00";
+        
+        return footView;
+    }
+    return nil;
+}
+
+-(UILabel *)footLabel
+{
+    UILabel *label = [UILabel new];
+    label.font = Font(12);
+    return label;
 }
 
 //适配不同的机型大小

@@ -40,7 +40,7 @@
     
     TheStoreModel *model;
     NSString *mobilestring;
-
+    
 }
 @property (nonatomic, strong) UIView *cover;
 @property (nonatomic, strong) UIView *picker;
@@ -88,7 +88,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self setUpChildViewControllers];
@@ -96,15 +96,15 @@
     [self setUpInit];
     
     [self setUpNav];
-
+    
     [self setUpTopButtonView];
-
+    
     [self addChildViewController];
-
+    
     [self setUpBottomButton];
-
+    
     [self acceptanceNote];
-
+    
     [self RequestCommodityDetailsData];
     
 }
@@ -116,8 +116,8 @@
     _Spec_goods_priceArray=[NSMutableArray new];
     
     _goods_infodictionary=[NSDictionary new];
-
-
+    
+    
     // 设置请求参数可变数组
     NSMutableDictionary *dic = [NSMutableDictionary new];
     
@@ -132,72 +132,83 @@
                                NSString *codeStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"code"]]; ;
                                NSDictionary *result=[responseObject objectForKey:@"result"];
                                
-                                if (codeStr.intValue==1) {
+                               if (codeStr.intValue==1) {
                                    
                                    NSDictionary *goods_infodic=[result objectForKey:@"goods_info"];
-                                    _goods_infodictionary=goods_infodic;
-                                    
+                                   _goods_infodictionary=goods_infodic;
+                                   
                                    model = [TheStoreModel mj_objectWithKeyValues:goods_infodic];
                                    model.name=[goods_infodic objectForKey:@"shop_name"];
                                    
-                                   mobilestring=[goods_infodic objectForKey:@"mobile"];
+                                   mobilestring = [goods_infodic objectForKey:@"mobile"];
                                    
                                    //商品属性数组
+                                   
+                                   if (![result[@"filter_spec"] isKindOfClass:[NSArray class]]) {
+                                       LRToast(@"商品信息有误");
+                                       GCDAfter1s(^{
+                                           [self.navigationController popViewControllerAnimated:YES];
+                                       });
+                                       return ;
+                                   }
+                                   
                                    NSMutableArray *filter_specarray=[result objectForKey:@"filter_spec"];
-                                    if (!kArrayIsEmpty(filter_specarray)) {
-                                        
-                                   for (NSDictionary *dic in filter_specarray) {
-
-                                       NSString *namestring = [[dic objectForKey:@"name"] trim];
-                                       NSDictionary *attr = @ {
-                                                            @"attrname":namestring,
-                                                            };
+                                   if (!kArrayIsEmpty(filter_specarray)) {
                                        
-                                       NSMutableArray *list=[NSMutableArray new];
-                                       NSMutableArray *resultarray=[dic objectForKey:@"result"];
-                                      
-//                                       for (NSDictionary *dic in resultarray) {
-//                                           NSDictionary *itemdic=@{
-//                                                                  @"infoname":[dic objectForKey:@"item"],
-//                                                                  @"infoid":[dic objectForKey:@"item_id"],
-//                                                                   };
-//                                           [list addObject:itemdic];
-//                                       }
-                                       
-                                       for (NSString *infonamestring in resultarray) {
-                                           NSDictionary *itemdic=@{
-                                                                   @"infoname":[infonamestring trim],
-//                                                                   @"infoid":[dic objectForKey:@"item_id"],
-                                                                   };
-                                           [list addObject:itemdic];
+                                       for (NSDictionary *dic in filter_specarray) {
+                                           
+                                           NSString *namestring = [[dic objectForKey:@"name"] trim];
+                                           NSDictionary *attr = @ {
+                                               @"attrname":namestring,
+                                           };
+                                           
+                                           NSMutableArray *list=[NSMutableArray new];
+                                           NSMutableArray *resultarray=[dic objectForKey:@"result"];
+                                           
+                                           //                                       for (NSDictionary *dic in resultarray) {
+                                           //                                           NSDictionary *itemdic=@{
+                                           //                                                                  @"infoname":[dic objectForKey:@"item"],
+                                           //                                                                  @"infoid":[dic objectForKey:@"item_id"],
+                                           //                                                                   };
+                                           //                                           [list addObject:itemdic];
+                                           //                                       }
+                                           
+                                           for (NSString *infonamestring in resultarray) {
+                                               NSDictionary *itemdic=@{
+                                                                       @"infoname":[infonamestring trim],
+                                                                       //                                                                   @"infoid":[dic objectForKey:@"item_id"],
+                                                                       };
+                                               [list addObject:itemdic];
+                                           }
+                                           
+                                           NSDictionary *rootitemdic=@{
+                                                                       @"attr":attr,
+                                                                       @"list":list
+                                                                       };
+                                           
+                                           [_RootAttributeArray addObject:rootitemdic];
+                                           
                                        }
                                        
-                                       NSDictionary *rootitemdic=@{
-                                                                   @"attr":attr,
-                                                                   @"list":list
-                                                                   };
+                                       //                                    NSLog(@"RootAttributeArray-----%@",_RootAttributeArray);
                                        
-                                       [_RootAttributeArray addObject:rootitemdic];
-                                   
                                    }
-                                    
-//                                    NSLog(@"RootAttributeArray-----%@",_RootAttributeArray);
-                                        
-                                    }
-                                    
-                                    NSMutableArray *spec_goods_pricearray=[result objectForKey:@"spec_goods_price"];
-
-                                    if (!kArrayIsEmpty(spec_goods_pricearray))
-                                    {
-                                        for (NSDictionary *dic in spec_goods_pricearray) {
-                                            NSDictionary *spedic=@{
-                                                                   [dic objectForKey:@"key_name"]:dic,
-                                                                   };
-                                            [_Spec_goods_priceArray addObject:spedic];
-                                        }
-                                    }
-
-                                }
+                                   
+                                   NSMutableArray *spec_goods_pricearray=[result objectForKey:@"spec_goods_price"];
+                                   
+                                   if (!kArrayIsEmpty(spec_goods_pricearray))
+                                   {
+                                       for (NSDictionary *dic in spec_goods_pricearray) {
+                                           NSDictionary *spedic=@{
+                                                                  [dic objectForKey:@"key_name"]:dic,
+                                                                  };
+                                           [_Spec_goods_priceArray addObject:spedic];
+                                       }
+                                   }
+                                   
+                                   
+                                   
+                               }
                                
                            } failure:^(NSError *error) {
                                //打印网络请求错误
@@ -207,7 +218,7 @@
                                //执行无网络刷新回调方法
                                
                            }];
-
+    
 }
 
 #pragma mark - initialize
@@ -235,19 +246,19 @@
     _dcObserve = [[NSNotificationCenter defaultCenter]addObserverForName:@"closebottomview" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         _bottombuttonbgview.hidden=YES; //隐藏bottomview
     }];
-
+    
     _dcObserve = [[NSNotificationCenter defaultCenter]addObserverForName:@"openbottomview" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         _bottombuttonbgview.hidden=NO;//显示bottomview
     }];
-
+    
 }
 
 #pragma mark - 头部View
 - (void)setUpTopButtonView
 {
-//    NSArray *titles = @[@"商品",@"详情",@"评价"];
+    //    NSArray *titles = @[@"商品",@"详情",@"评价"];
     NSArray *titles = @[@"商品",@"详情"];
-
+    
     CGFloat margin = 5;
     _bgView = [[UIView alloc] init];
     _bgView.dc_centerX = ScreenW * 0.5;
@@ -290,7 +301,7 @@
     indicatorView.dc_centerX = firstButton.dc_centerX;
     
     [_bgView addSubview:indicatorView];
-
+    
 }
 
 #pragma mark - 添加子控制器View
@@ -308,33 +319,33 @@
 #pragma mark - 添加子控制器
 -(void)setUpChildViewControllers
 {
-//    //原生详情页
-//    __weak typeof(self)weakSelf = self;
-//    DCGoodBaseViewController *goodBaseVc = [[DCGoodBaseViewController alloc] init];
-//    goodBaseVc.goodTitle = _goodTitle;
-//    goodBaseVc.goodPrice = _goodPrice;
-//    goodBaseVc.goodSubtitle = _goodSubtitle;
-//    goodBaseVc.shufflingArray = _shufflingArray;
-//    goodBaseVc.goodImageView = _goodImageView;
-//    goodBaseVc.changeTitleBlock = ^(BOOL isChange) {
-//        if (isChange) {
-//            weakSelf.title = @"图文详情";
-//            weakSelf.navigationItem.titleView = nil;
-//                self.scrollerView.contentSize = CGSizeMake(self.view.dc_width, 0);
-//        }else{
-//            weakSelf.title = nil;
-//            weakSelf.navigationItem.titleView = weakSelf.bgView;
-//            self.scrollerView.contentSize = CGSizeMake(self.view.dc_width * self.childViewControllers.count, 0);
-//        }
-//    };
-//    [self addChildViewController:goodBaseVc];
+    //    //原生详情页
+    //    __weak typeof(self)weakSelf = self;
+    //    DCGoodBaseViewController *goodBaseVc = [[DCGoodBaseViewController alloc] init];
+    //    goodBaseVc.goodTitle = _goodTitle;
+    //    goodBaseVc.goodPrice = _goodPrice;
+    //    goodBaseVc.goodSubtitle = _goodSubtitle;
+    //    goodBaseVc.shufflingArray = _shufflingArray;
+    //    goodBaseVc.goodImageView = _goodImageView;
+    //    goodBaseVc.changeTitleBlock = ^(BOOL isChange) {
+    //        if (isChange) {
+    //            weakSelf.title = @"图文详情";
+    //            weakSelf.navigationItem.titleView = nil;
+    //                self.scrollerView.contentSize = CGSizeMake(self.view.dc_width, 0);
+    //        }else{
+    //            weakSelf.title = nil;
+    //            weakSelf.navigationItem.titleView = weakSelf.bgView;
+    //            self.scrollerView.contentSize = CGSizeMake(self.view.dc_width * self.childViewControllers.count, 0);
+    //        }
+    //    };
+    //    [self addChildViewController:goodBaseVc];
     
     
     //H5详情页
     GoodsDetailsViewController *goodsDetailsVc = [[GoodsDetailsViewController alloc] init];
     kStringIsEmpty(self.goods_id)?[goodsDetailsVc  setGeneralGoodsModel:self.GeneralGoodsModel]:[goodsDetailsVc setGoods_id:self.goods_id];
     [self addChildViewController:goodsDetailsVc];
-
+    
     
     //详情页
     DCGoodParticularsViewController *goodParticularsVc = [[DCGoodParticularsViewController alloc] init];
@@ -343,9 +354,9 @@
     
     
     //评论页
-//    DCGoodCommentViewController *goodCommentVc = [[DCGoodCommentViewController alloc] init];
-//    goodParticularsVc.GeneralGoodsModel=self.GeneralGoodsModel;
-//    [self addChildViewController:goodCommentVc];
+    //    DCGoodCommentViewController *goodCommentVc = [[DCGoodCommentViewController alloc] init];
+    //    goodParticularsVc.GeneralGoodsModel=self.GeneralGoodsModel;
+    //    [self addChildViewController:goodCommentVc];
     
 }
 
@@ -457,9 +468,9 @@
 #pragma mark - 点击工具条
 - (void)toolItemClick
 {
-//    [self setUpAlterViewControllerWith:[DCToolsViewController new] WithDistance:150 WithDirection:XWDrawerAnimatorDirectionTop WithParallaxEnable:NO WithFlipEnable:NO];
+    //    [self setUpAlterViewControllerWith:[DCToolsViewController new] WithDistance:150 WithDirection:XWDrawerAnimatorDirectionTop WithParallaxEnable:NO WithFlipEnable:NO];
     
-//    [self setUpAlterViewControllerWith:[DCShareToViewController new] WithDistance:300 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:NO WithFlipEnable:NO];
+    //    [self setUpAlterViewControllerWith:[DCShareToViewController new] WithDistance:300 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:NO WithFlipEnable:NO];
     [self show:nil];
 }
 
@@ -620,8 +631,8 @@
 
 - (void)share:(UIButton *)sender {
     
-//    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
-//    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
+    //    NSString *user_id = GetSaveString([USER_DEFAULT objectForKey:@"user_id"]);
+    //    NSString *token = GetSaveString([USER_DEFAULT objectForKey:@"token"]);
     NSString *mobile = GetSaveString([USER_DEFAULT objectForKey:@"mobile"]);
     NSString *good_id = model.goods_id;
     NSString *business_id = model.business_id;
@@ -656,7 +667,7 @@
     } failure:^{
         [self tap:nil];
     }];
-
+    
 }
 
 - (void)bottomButtonClick:(UIButton *)button
@@ -717,7 +728,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:_dcObserve];
-     NSLog(@"烫烫烫烫烫烫烫烫烫烫烫烫烫烫==================");
+    NSLog(@"烫烫烫烫烫烫烫烫烫烫烫烫烫烫==================");
 }
 
 

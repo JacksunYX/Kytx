@@ -228,7 +228,7 @@ static NSString *const MyOrderListRecommendCellID = @"MyOrderListCellID";
     } failure:^(NSError *error) {
         [self.table.mj_header endRefreshing];
         [self.table.mj_footer endRefreshing];
-        LRToast(@"网络错误");
+        
     }  RefreshAction:nil];
     
 }

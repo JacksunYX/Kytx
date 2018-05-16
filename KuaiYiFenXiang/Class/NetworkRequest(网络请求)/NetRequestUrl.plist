@@ -97,7 +97,7 @@
 	<key>recordlist</key>
 	<string>Apis/User/inPayment</string>
 	<key>buyCart</key>
-	<string>Apis/Cart/buyCart</string>
+	<string>Apis/NewCart/buyCart</string>
 	<key>billdetail</key>
 	<string>Apis/User/billList</string>
 	<key>frozendetail</key>
