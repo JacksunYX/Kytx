@@ -1374,7 +1374,7 @@ static NSString *const MyOrderListRecommendCellID = @"MyOrderListCellID";
     
     if (push) {
         modvc.olmodel = orderModel;
-        modvc.order_snstring = orderModel.order_sn;
+        modvc.order_snstring = orderModel.parent_sn;
         modvc.currentIndex = self.index;
         [self.navigationController pushViewController:modvc animated:YES];
         return @"";

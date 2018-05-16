@@ -35,6 +35,9 @@
 //组合支付页面
 #import "GroupPayViewController.h"
 
+//查看物流页面
+#import "CheckLogisticsViewController.h"
+
 @interface MyOrderDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong) NSMutableArray *addressdataSource;
@@ -82,6 +85,7 @@
     NSString *money;            //余额(可以提现的)
     
     BOOL showPaySection;    //是否显示支付分区
+    BOOL pushToCheckVc;     //是否跳转到查看物流界面
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -171,7 +175,7 @@
     NSMutableDictionary *requestdic=[NSMutableDictionary new];
     [requestdic setObject:kStringIsEmpty(self.order_snstring)?@"":self.order_snstring forKey:@"order_sn"];
     [HttpRequest postWithTokenURLString:NetRequestUrl(orderDetail) parameters:requestdic
-                           isShowToastd:(BOOL)NO
+                           isShowToastd:(BOOL)YES
                               isShowHud:(BOOL)NO
                        isShowBlankPages:(BOOL)NO
                                 success:^(id responseObject)  {
@@ -210,7 +214,7 @@
                                         }
                                         self.payinformationarray = @[
                                                                      [NSString stringWithFormat:@"下单时间:%@",[NSString_Category Timestamptofixedformattime:@"YYYY-MM-dd HH:mm:ss" andTimeInterval:addtimestring.integerValue]], /*[NSString stringWithFormat:@"支付方式:%@",[result objectForKey:@"pay_name"]],*/
-                                                    [NSString stringWithFormat:@"订单编号:%@",[result objectForKey:@"order_sn"]]];
+                                                                     [NSString stringWithFormat:@"订单编号:%@",[result objectForKey:@"order_sn"]]];
                                         
                                         _resultdic=[result mutableCopy];
                                         [self setbottomview];
@@ -1062,75 +1066,7 @@
         [self presentViewController:alert animated:YES completion:^{ }];
     }else if ([btn.titleLabel.text isEqualToString:@"查看物流"]){
         
-        OrderGoodsModel *olmodel = self.order_goodsarray[0];
-        
-        SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
-        smvc.TradeLogisticsDataSource=[NSMutableArray new];
-        
-        NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
-        //参数列表
-        NSMutableDictionary *parame = [NSMutableDictionary new];
-        [parame setObject:GetSaveString(olmodel.shipping_code) forKey:@"type"];
-        [parame setObject:GetSaveString(olmodel.invoice_no) forKey:@"no"];
-        [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
-        
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        /**
-         *  可以接受的类型
-         */
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        
-        manager.requestSerializer.timeoutInterval = 5;
-        
-        if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
-        
-        [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-            
-            kHiddenHUDAndAvtivity;
-            
-            //直接把返回的参数进行解析然后返回
-            NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-            
-            NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
-            
-            NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]]; ;
-            NSDictionary *resultdic1=[resultdic objectForKey:@"result"];
-            NSString *status;
-            NSDictionary *resultdic2;
-            if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
-                status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
-                resultdic2 = [resultdic1 objectForKey:@"result"];
-            }
-            //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
-            if (codeStr.intValue==10000) {
-                
-                if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
-                    NSMutableArray *listarray=[resultdic2 objectForKey:@"list"];
-                    
-                    for (NSDictionary *dic in listarray) {
-                        
-                        //初始化模型
-                        LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
-                        //把模型添加到相应的数据源数组中
-                        //                    [self.TradeLogisticsDataSource addObject:model];
-                        [smvc.TradeLogisticsDataSource addObject:model];
-                        
-                    }
-                    smvc.logisticsPhone = resultdic2[@"expPhone"];
-                }
-                
-                smvc.categorynameNumString=@"TradeLogistics";
-                smvc.logisticsTypeString = olmodel.shipping_code;
-                smvc.logisticsNoString = olmodel.invoice_no;
-                [self.navigationController pushViewController:smvc animated:YES];
-                
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-            
-            kHiddenHUDAndAvtivity;
-            
-        }];
+        [self checkLogic];
         
     }else if ([btn.titleLabel.text isEqualToString:@"取消订单"]){
         CancelOrderPopoverView *copv=[[CancelOrderPopoverView alloc]init];
@@ -1191,76 +1127,7 @@
         
     }else if ([btn.titleLabel.text isEqualToString:@"查看物流"]){
         
-        OrderGoodsModel *olmodel = self.order_goodsarray[0];
-        
-        SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
-        smvc.TradeLogisticsDataSource=[NSMutableArray new];
-        
-        NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
-        //参数列表
-        NSMutableDictionary *parame = [NSMutableDictionary new];
-        [parame setObject:GetSaveString(olmodel.shipping_code) forKey:@"type"];
-        [parame setObject:GetSaveString(olmodel.invoice_no) forKey:@"no"];
-        [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
-        
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        /**
-         *  可以接受的类型
-         */
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        
-        manager.requestSerializer.timeoutInterval = 5;
-        
-        if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
-        
-        [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-            
-            kHiddenHUDAndAvtivity;
-            
-            //直接吧返回的参数进行解析然后返回
-            NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-            
-            NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
-            
-            NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]]; ;
-            NSDictionary *resultdic1=[resultdic objectForKey:@"result"];
-            NSString *status;
-            NSDictionary *resultdic2;
-            if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
-                status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
-                resultdic2 = [resultdic1 objectForKey:@"result"];
-            }
-            //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
-            if (codeStr.intValue==10000) {
-                
-                if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
-                    NSMutableArray *listarray=[resultdic2 objectForKey:@"list"];
-                    
-                    for (NSDictionary *dic in listarray) {
-                        
-                        //初始化模型
-                        LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
-                        //把模型添加到相应的数据源数组中
-                        //                    [self.TradeLogisticsDataSource addObject:model];
-                        [smvc.TradeLogisticsDataSource addObject:model];
-                        
-                    }
-                    
-                    smvc.logisticsPhone = resultdic2[@"expPhone"];
-                }
-                
-                smvc.categorynameNumString=@"TradeLogistics";
-                smvc.logisticsTypeString = olmodel.shipping_code;
-                smvc.logisticsNoString = olmodel.invoice_no;
-                [self.navigationController pushViewController:smvc animated:YES];
-                
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-            
-            kHiddenHUDAndAvtivity;
-            
-        }];
+        [self checkLogic];
         
     }
 }
@@ -1447,6 +1314,87 @@
                                         
                                     }];
     };
+}
+
+//查看物流
+-(void)checkLogic
+{
+    pushToCheckVc = YES;
+    if (pushToCheckVc) {
+        CheckLogisticsViewController *clVC = [CheckLogisticsViewController new];
+        [self.navigationController pushViewController:clVC animated:YES];
+    }else{
+        
+        OrderGoodsModel *olmodel = self.order_goodsarray[0];
+        
+        SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
+        smvc.TradeLogisticsDataSource=[NSMutableArray new];
+        
+        NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
+        //参数列表
+        NSMutableDictionary *parame = [NSMutableDictionary new];
+        [parame setObject:GetSaveString(olmodel.shipping_code) forKey:@"type"];
+        [parame setObject:GetSaveString(olmodel.invoice_no) forKey:@"no"];
+        [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
+        
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        //可以接受的类型
+        
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        
+        manager.requestSerializer.timeoutInterval = 5;
+        
+        if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
+        
+        [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            
+            kHiddenHUDAndAvtivity;
+            
+            //直接把返回的参数进行解析然后返回
+            NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+            
+            NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
+            
+            NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]]; ;
+            NSDictionary *resultdic1=[resultdic objectForKey:@"result"];
+            NSString *status;
+            NSDictionary *resultdic2;
+            if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
+                status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
+                resultdic2 = [resultdic1 objectForKey:@"result"];
+            }
+            //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
+            if (codeStr.intValue==10000) {
+                
+                if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
+                    NSMutableArray *listarray=[resultdic2 objectForKey:@"list"];
+                    
+                    for (NSDictionary *dic in listarray) {
+                        
+                        //初始化模型
+                        LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
+                        //把模型添加到相应的数据源数组中
+                        //                    [self.TradeLogisticsDataSource addObject:model];
+                        [smvc.TradeLogisticsDataSource addObject:model];
+                        
+                    }
+                    smvc.logisticsPhone = resultdic2[@"expPhone"];
+                }
+                
+                smvc.categorynameNumString=@"TradeLogistics";
+                smvc.logisticsTypeString = olmodel.shipping_code;
+                smvc.logisticsNoString = olmodel.invoice_no;
+                [self.navigationController pushViewController:smvc animated:YES];
+                
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+            
+            kHiddenHUDAndAvtivity;
+            
+        }];
+        
+    }
 }
 
 - (void)doAPPay

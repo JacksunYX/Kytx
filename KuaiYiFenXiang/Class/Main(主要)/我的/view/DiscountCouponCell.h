@@ -5,6 +5,7 @@
 //  Created by IMAC on 2018/5/15.
 //  Copyright © 2018年 YiHeHengRui. All rights reserved.
 //
+//优惠券cell
 
 #import <UIKit/UIKit.h>
 

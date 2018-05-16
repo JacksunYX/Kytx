@@ -200,7 +200,8 @@
         
         MCWeakSelf
         _shopcartTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            [weakSelf requestShopcartListData];;
+            [weakSelf requestShopcartListData];
+            [weakSelf.shopcartBottomView configureShopcartBottomViewWithTotalPrice:0 totalCount:0 isAllselected:NO];
         }];
         _shopcartTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNewCommendGoodNotify object:nil];
@@ -525,7 +526,7 @@
     [dic setObject:@"1" forKey:@"type"];
     
     [HttpRequest postWithTokenURLString:NetRequestUrl(buyCart) parameters:dic
-                           isShowToastd:(BOOL)NO
+                           isShowToastd:(BOOL)YES
                               isShowHud:(BOOL)YES
                        isShowBlankPages:(BOOL)NO
                                 success:^(id responseObject)  {

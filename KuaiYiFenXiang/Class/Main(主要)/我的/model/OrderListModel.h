@@ -38,6 +38,8 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *business_confirm;
 @property (nonatomic, strong) NSString *ship_code;
+@property (nonatomic, strong) NSString *parent_sn;
+
 @end
 
 @interface GoodListModel : NSObject

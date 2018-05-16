@@ -580,7 +580,7 @@
 {
     if (section != 0 && section <= self.business_infoarray.count) {
         NSDictionary *dic = self.business_infoarray[section-1];
-        NSArray *goodsArr = dic[@"order_goodsarray"];
+//        NSArray *goodsArr = dic[@"order_goodsarray"];
         UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenW, 100)];
         footView.backgroundColor = kWhiteColor;
         UILabel *goodsTotalLeft = [self footLabel];
@@ -616,7 +616,7 @@
         .autoHeightRatio(0)
         ;
         [goodsTotalRight setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
-        goodsTotalRight.text = @"￥100.00";
+        goodsTotalRight.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"total_amount"] floatValue]];
         goodsTotalRight.textColor = kColord40;
         
         freightTotalLeft.sd_layout
@@ -633,7 +633,7 @@
         .autoHeightRatio(0)
         ;
         [freightTotalRight setSingleLineAutoResizeWithMaxWidth:(ScreenW - 30)/2];
-        freightTotalRight.text = @"￥0.00";
+        freightTotalRight.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"shipping_price"] floatValue]];
         freightTotalRight.textColor = kColord40;
         
         line.sd_layout
@@ -651,7 +651,7 @@
         .autoHeightRatio(0)
         ;
         totalNum.textAlignment = NSTextAlignmentCenter;
-        totalNum.text = [NSString stringWithFormat:@"共%ld件商品",goodsArr.count];
+        totalNum.text = [NSString stringWithFormat:@"共%@件商品",dic[@"anum"]];
         
         realPay.sd_layout
         .topSpaceToView(line, 10)
@@ -659,8 +659,11 @@
         .rightEqualToView(footView)
         .autoHeightRatio(0)
         ;
+        realPay.isAttributedContent = YES;
         realPay.textAlignment = NSTextAlignmentCenter;
-        realPay.text = @"实付款：￥100.00";
+        NSString *realMoney = [NSString stringWithFormat:@"实付款：￥%.2f",[dic[@"order_amount"] floatValue]];
+        NSMutableAttributedString *attStr = [NSString RichtextString:realMoney andstartstrlocation:4 andendstrlocation:realMoney.length - 4 andchangcoclor:kColord40 andchangefont:Font(12)];
+        realPay.attributedText = attStr;
         
         return footView;
     }

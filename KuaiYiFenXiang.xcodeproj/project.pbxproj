@@ -959,6 +959,8 @@
 		8850AB6B201EC4F000F53604 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8850AB6A201EC4F000F53604 /* Foundation.framework */; };
 		8850AB6D201EC50200F53604 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8850AB6C201EC50200F53604 /* CFNetwork.framework */; };
 		8850AB6F201EC50C00F53604 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8850AB6E201EC50C00F53604 /* CoreMotion.framework */; };
+		8857910820AC0E0100A198CF /* CheckLogisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8857910720AC0E0100A198CF /* CheckLogisticsViewController.m */; };
+		8857910B20AC1E3200A198CF /* CheckLogicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8857910A20AC1E3200A198CF /* CheckLogicCell.m */; };
 		885A2F2A204D3F3A001AFD2F /* FocusOnStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F26204D3F39001AFD2F /* FocusOnStoreViewController.m */; };
 		885A2F2B204D3F3A001AFD2F /* CollectionGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F27204D3F39001AFD2F /* CollectionGoodsViewController.m */; };
 		885A2F2E204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 885A2F2D204D3F6A001AFD2F /* CollectionGoodsCollectionViewCell.m */; };
@@ -3074,6 +3076,10 @@
 		8850AB6A201EC4F000F53604 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8850AB6C201EC50200F53604 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8850AB6E201EC50C00F53604 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		8857910620AC0E0100A198CF /* CheckLogisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckLogisticsViewController.h; sourceTree = "<group>"; };
+		8857910720AC0E0100A198CF /* CheckLogisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckLogisticsViewController.m; sourceTree = "<group>"; };
+		8857910920AC1E3200A198CF /* CheckLogicCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckLogicCell.h; sourceTree = "<group>"; };
+		8857910A20AC1E3200A198CF /* CheckLogicCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckLogicCell.m; sourceTree = "<group>"; };
 		885A2F26204D3F39001AFD2F /* FocusOnStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusOnStoreViewController.m; sourceTree = "<group>"; };
 		885A2F27204D3F39001AFD2F /* CollectionGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionGoodsViewController.m; sourceTree = "<group>"; };
 		885A2F28204D3F3A001AFD2F /* FocusOnStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FocusOnStoreViewController.h; sourceTree = "<group>"; };
@@ -4493,6 +4499,8 @@
 				D5C9097720521FAD00D6BBBD /* ContactTableViewCell.m */,
 				886C82E920AA6EB500BA774A /* DiscountCouponCell.h */,
 				886C82EA20AA6EB500BA774A /* DiscountCouponCell.m */,
+				8857910920AC1E3200A198CF /* CheckLogicCell.h */,
+				8857910A20AC1E3200A198CF /* CheckLogicCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -9971,6 +9979,8 @@
 				88EDF98A202C6C73009B6F4C /* ToApplyForARefundViewController.m */,
 				88F49236202D32DE002A326A /* DetailsRefundViewController.h */,
 				88F49237202D32DE002A326A /* DetailsRefundViewController.m */,
+				8857910620AC0E0100A198CF /* CheckLogisticsViewController.h */,
+				8857910720AC0E0100A198CF /* CheckLogisticsViewController.m */,
 			);
 			path = "我的订单";
 			sourceTree = "<group>";
@@ -11066,6 +11076,7 @@
 				18FC022E200599F50085BED2 /* YYFCollectionReusableView.m in Sources */,
 				D5C7B9E4202ECD7700CDB0B6 /* JTSAnimatedGIFUtility.m in Sources */,
 				18FC02AC200599F60085BED2 /* MHeaderImaCell.m in Sources */,
+				8857910820AC0E0100A198CF /* CheckLogisticsViewController.m in Sources */,
 				887AC4E9200C3CC90065838E /* ZXCode93Reader.m in Sources */,
 				D53B626F2054223C00E182BD /* IQKeyboardManager.m in Sources */,
 				18FC0207200599F50085BED2 /* TZImagePickerController.m in Sources */,
@@ -11238,6 +11249,7 @@
 				18FC0219200599F50085BED2 /* WebViewJavascriptBridge.m in Sources */,
 				18FC026A200599F50085BED2 /* NSParagraphStyle+YYText.m in Sources */,
 				18FC018D200599F40085BED2 /* MASConstraintMaker.m in Sources */,
+				8857910B20AC1E3200A198CF /* CheckLogicCell.m in Sources */,
 				D5C909402050C4F400D6BBBD /* MyShareViewController.m in Sources */,
 				887AC4C7200C3CC90065838E /* ZXAI013103decoder.m in Sources */,
 				18FC01ED200599F50085BED2 /* SVProgressAnimatedView.m in Sources */,

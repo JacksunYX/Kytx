@@ -67,7 +67,7 @@
 	<key>orderConfirm</key>
 	<string>Apis/User/orderConfirm</string>
 	<key>refund</key>
-	<string>Apis/User/refund</string>
+	<string>Apis/NewUser/refund</string>
 	<key>usermyinfo</key>
 	<string>Apis/User/userMyInfo</string>
 	<key>deladdress</key>
@@ -79,7 +79,7 @@
 	<key>payCancel</key>
 	<string>Apis/User/payCancel</string>
 	<key>orderDetail</key>
-	<string>Apis/User/orderDetail</string>
+	<string>Apis/NewUser/orderDetail</string>
 	<key>forgetpwd</key>
 	<string>Apis/User/forGetPassword</string>
 	<key>changepwd</key>
@@ -137,7 +137,7 @@
 	<key>get_user_address_list</key>
 	<string>Apis/User/ get_user_address_list</string>
 	<key>buyNow</key>
-	<string>Apis/Cart/buyNow</string>
+	<string>Apis/NewCart/buyNow</string>
 	<key>cList</key>
 	<string>Apis/Cart/cList</string>
 	<key>changmobile</key>
@@ -147,7 +147,7 @@
 	<key>uploadimage</key>
 	<string>Apis/User/updateUserImage</string>
 	<key>ordergoods</key>
-	<string>Apis/User/order_goods</string>
+	<string>Apis/NewUser/order_goods</string>
 	<key>addaddress</key>
 	<string>Apis/User/add_address</string>
 	<key>getaddress</key>
