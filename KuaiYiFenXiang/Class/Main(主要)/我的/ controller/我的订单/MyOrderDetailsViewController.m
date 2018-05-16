@@ -85,7 +85,6 @@
     NSString *money;            //余额(可以提现的)
     
     BOOL showPaySection;    //是否显示支付分区
-    BOOL pushToCheckVc;     //是否跳转到查看物流界面
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -1319,8 +1318,7 @@
 //查看物流
 -(void)checkLogic
 {
-    pushToCheckVc = YES;
-    if (pushToCheckVc) {
+    if (PushToLogicListVC) {
         CheckLogisticsViewController *clVC = [CheckLogisticsViewController new];
         [self.navigationController pushViewController:clVC animated:YES];
     }else{

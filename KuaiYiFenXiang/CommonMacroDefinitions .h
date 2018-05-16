@@ -485,6 +485,12 @@ kWindow.userInteractionEnabled = YES;\
 
 //----------------------是否有银联支付----------------------------
 
+//----------------------是否跳转到查看物流列表界面----------------------------
+
+#define PushToLogicListVC (1)
+
+//----------------------是否有银联支付----------------------------
+
 //通知名称
 #define RefreshShoppingCartNewCommendGoodNotify @"RefreshShoppingCartNewCommendGoodNotify"
 

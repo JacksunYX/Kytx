@@ -951,277 +951,194 @@ static NSString *const MyOrderListRecommendCellID = @"MyOrderListCellID";
     
     if (olmodel.pay_refund.intValue==1||olmodel.pay_refund.intValue==2 || (olmodel.pay_refund.integerValue == 0 && olmodel.business_status.integerValue == 2)) {
         if([btn.titleLabel.text isEqualToString:@"查看售后"]) {
-            DetailsRefundViewController *drvc=[[DetailsRefundViewController alloc]init];
-            drvc.refundordersnString=olmodel.order_sn;
-            drvc.all_num = olmodel.all_num;
-            [self.navigationController pushViewController:drvc animated:YES];
+            
+            [self checkAfter_saleWithModel:olmodel];
+            
         }else if ([btn.titleLabel.text isEqualToString:@"删除订单"]){
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除订单吗?"
-                                                                           message:@"订单删除不能恢复,请谨慎操作"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action){
-                                                                     
-                                                                 }];
-            UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction *action){
-                                                                      [self deleteOrder:olmodel.order_sn];
-                                                                  }];
-            [alert addAction:quxiaoaction];
-            [alert addAction:quedingaction];
-            [self presentViewController:alert animated:YES completion:^{ }];
+            
+            [self showDeleteViewWithOrder_sn:olmodel.order_sn];
             
         }else if ([btn.titleLabel.text isEqualToString:@"查看物流"]){
             
-            SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
-            smvc.TradeLogisticsDataSource=[NSMutableArray new];
-            
-            NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
-            //参数列表
-            NSMutableDictionary *parame = [NSMutableDictionary new];
-            [parame setObject:GetSaveString(glmodel.shipping_code) forKey:@"type"];
-            [parame setObject:GetSaveString(glmodel.invoice_no) forKey:@"no"];
-            [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
-            
-            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            /**
-             *  可以接受的类型
-             */
-            manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-            
-            manager.requestSerializer.timeoutInterval = 5;
-            
-            if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
-            
-            [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                
-                kHiddenHUDAndAvtivity;
-                
-                //直接吧返回的参数进行解析然后返回
-                NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-                
-                NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
-                
-                NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]];
-                NSDictionary *resultdic1=[resultdic objectForKey:@"result"];
-                NSString *status;
-                NSDictionary *resultdic2;
-                if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
-                    status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
-                    resultdic2 = [resultdic1 objectForKey:@"result"];
-                }
-                //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
-                if (codeStr.intValue==10000) {
-                    
-                    if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
-                        NSMutableArray *listarray=[resultdic2 objectForKey:@"list"];
-                        
-                        for (NSDictionary *dic in listarray) {
-                            
-                            //初始化模型
-                            LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
-                            //把模型添加到相应的数据源数组中
-                            //                    [self.TradeLogisticsDataSource addObject:model];
-                            [smvc.TradeLogisticsDataSource addObject:model];
-                            
-                        }
-                        smvc.logisticsPhone = resultdic2[@"expPhone"];
-                    }
-                    
-                    smvc.categorynameNumString=@"TradeLogistics";
-                    smvc.logisticsTypeString = glmodel.shipping_code;
-                    smvc.logisticsNoString = glmodel.invoice_no;
-                    [self.navigationController pushViewController:smvc animated:YES];
-                    
-                }
-                
-            } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                
-                kHiddenHUDAndAvtivity;
-                
-            }];
+            [self checkLogicWithModel:glmodel];
             
         } else if ([btn.titleLabel.text isEqualToString:@"确认收货"]){
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
-                                                                           message:@"确认已收到商品"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action){
-                                                                     
-                                                                 }];
-            UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction *action){
-                                                                      [self Determineifthereisapaymentpassword:@"querenshouhuozhifu" andorder_snstring:olmodel.order_sn];
-                                                                  }];
-            [alert addAction:quxiaoaction];
-            [alert addAction:quedingaction];
-            [self presentViewController:alert animated:YES completion:^{ }];
+            
+            [self showConfirmViewWithOrder_sn:olmodel.order_sn];
             
         }else if ([btn.titleLabel.text isEqualToString:@"催促发货"]){
-            //这里催促发货似乎并没有调用接口
-            if ([[NSDate date] timeIntervalSince1970] - olmodel.pay_time.integerValue <= 48*3600) {
-                LRToast(@"您的订单目前处于正常发货时效内，请耐心等待发货，如超过2天仍未发货请您再次催促发货");
-            } else {
-                LRToast(@"催促发货提交成功,请耐心等待");
-            }
-            
-            //        }else if ([btn.titleLabel.text isEqualToString:@"查看详情"]&&self.index == 5){
-            //            //退款详情
-            //            DetailsRefundViewController *drvc=[[DetailsRefundViewController alloc]init];
-            //            drvc.refundordersnString=olmodel.order_sn;
-            //            [self.navigationController pushViewController:drvc animated:YES];
+
+            [self urgeOrderWithPay_time:olmodel.pay_time];
+
         }
         
     } else if (olmodel.pay_refund.intValue==0){
+        
         if([btn.titleLabel.text isEqualToString:@"查看售后"]) {
-            DetailsRefundViewController *drvc=[[DetailsRefundViewController alloc]init];
-            drvc.refundordersnString=olmodel.order_sn;
-            drvc.all_num = olmodel.all_num;
-            [self.navigationController pushViewController:drvc animated:YES];
+            
+            [self checkAfter_saleWithModel:olmodel];
+            
         }else if ([btn.titleLabel.text isEqualToString:@"去付款"]) {
             
-            MyOrderDetailsViewController *modvc=[[MyOrderDetailsViewController alloc]init];
+            MyOrderDetailsViewController *modvc = [[MyOrderDetailsViewController alloc]init];
             modvc.olmodel = olmodel;
-            modvc.order_snstring=olmodel.order_sn;
-            modvc.btntextstring=@"去付款";
-            modvc.orderinformationArray=@[@"daifukuan_icon",@"待付款",@"订单为您保留7天,超时后将自动关闭交易"];
+            modvc.order_snstring = olmodel.parent_sn;
+            modvc.btntextstring = @"去付款";
+            modvc.orderinformationArray = @[@"daifukuan_icon",@"待付款",@"订单为您保留7天,超时后将自动关闭交易"];
             [self.navigationController pushViewController:modvc animated:YES];
             
         }else if ([btn.titleLabel.text isEqualToString:@"催促发货"]){
-            if ([[NSDate date] timeIntervalSince1970] - olmodel.pay_time.integerValue <= 48*3600) {
-                LRToast(@"您的订单目前处于正常发货时效内，请耐心等待发货，如超过2天仍未发货请您再次催促发货");
-            } else {
-                LRToast(@"催促发货提交成功,请耐心等待");
-            }
+            
+            [self urgeOrderWithPay_time:olmodel.pay_time];
+            
         }else if ([btn.titleLabel.text isEqualToString:@"查看物流"]){
             
-            SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
-            smvc.TradeLogisticsDataSource=[NSMutableArray new];
-            
-            
-            NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
-            //参数列表
-//            NSLog(@"glmodel.invoice_no:%@",olmodel.order_sn);
-            NSMutableDictionary *parame = [NSMutableDictionary new];
-            [parame setObject:GetSaveString(glmodel.shipping_code) forKey:@"type"];
-            [parame setObject:GetSaveString(glmodel.invoice_no) forKey:@"no"];
-            [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
-            
-            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            /**
-             *  可以接受的类型
-             */
-            manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-            
-            manager.requestSerializer.timeoutInterval = 5;
-            
-            if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
-            
-            [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                
-                kHiddenHUDAndAvtivity;
-                
-                //直接吧返回的参数进行解析然后返回
-                NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-                
-                NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
-                
-                NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]];
-                NSDictionary *resultdic1 = [resultdic objectForKey:@"result"];
-                
-                NSString *status;
-                NSDictionary *resultdic2;
-                if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
-                    status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
-                    resultdic2 = [resultdic1 objectForKey:@"result"];
-                }
-                
-                //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
-                if (codeStr.intValue == 10000) {
-                    
-                    if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
-                        NSMutableArray *listarray = [resultdic2 objectForKey:@"list"];
-                        
-                        for (NSDictionary *dic in listarray) {
-                            
-                            //初始化模型
-                            LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
-                            //把模型添加到相应的数据源数组中
-                            //                    [self.TradeLogisticsDataSource addObject:model];
-                            [smvc.TradeLogisticsDataSource addObject:model];
-                            
-                        }
-                        smvc.logisticsPhone = resultdic2[@"expPhone"];
-                    }
-                    
-                    smvc.categorynameNumString=@"TradeLogistics";
-                    smvc.logisticsTypeString = glmodel.shipping_code;
-                    smvc.logisticsNoString = glmodel.invoice_no;
-                    
-                    
-                    [self.navigationController pushViewController:smvc animated:YES];
-                    
-                }
-                if (codeStr.intValue == 10030) {
-                    LRToast(resultdic[@"msg"]);
-                }
-                
-            } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                
-                kHiddenHUDAndAvtivity;
-                
-            }];
-            
-            //        SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
-            //        smvc.logisticsTypeString = glmodel.shipping_code;
-            //        smvc.logisticsNoString = glmodel.invoice_no;
-            //        smvc.categorynameNumString=@"TradeLogistics";
-            //        [self.navigationController pushViewController:smvc animated:YES];
+            [self checkLogicWithModel:glmodel];
             
         }else if ([btn.titleLabel.text isEqualToString:@"删除订单"]){
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除订单吗?"
-                                                                           message:@"订单删除不能恢复,请谨慎操作"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action){
-                                                                     
-                                                                 }];
-            UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction *action){
-                                                                      [self deleteOrder:olmodel.order_sn];
-                                                                  }];
-            [alert addAction:quxiaoaction];
-            [alert addAction:quedingaction];
-            [self presentViewController:alert animated:YES completion:^{ }];
+            
+            [self showDeleteViewWithOrder_sn:olmodel.order_sn];
             
         }else if ([btn.titleLabel.text isEqualToString:@"确认收货"]){
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
-                                                                           message:@"确认已收到商品"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action){
-                                                                     
-                                                                 }];
-            UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction *action){
-                                                                      [self Determineifthereisapaymentpassword:@"querenshouhuozhifu" andorder_snstring:olmodel.order_sn];
-                                                                  }];
-            [alert addAction:quxiaoaction];
-            [alert addAction:quedingaction];
-            [self presentViewController:alert animated:YES completion:^{ }];
             
+            [self showConfirmViewWithOrder_sn:olmodel.order_sn];
         }
         
     }
     
+}
+
+//查看售后
+-(void)checkAfter_saleWithModel:(OrderListModel *)olmodel
+{
+    DetailsRefundViewController *drvc = [[DetailsRefundViewController alloc]init];
+    drvc.refundordersnString = olmodel.order_sn;
+    drvc.all_num = olmodel.all_num;
+    [self.navigationController pushViewController:drvc animated:YES];
+}
+
+//催促发货
+-(void)urgeOrderWithPay_time:(NSString *)pay_time
+{
+    if ([[NSDate date] timeIntervalSince1970] - pay_time.integerValue <= 48*3600) {
+        LRToast(@"您的订单目前处于正常发货时效内，请耐心等待发货，如超过2天仍未发货请您再次催促发货");
+    } else {
+        LRToast(@"催促发货提交成功,请耐心等待");
+    }
+}
+
+//确认收货弹框
+-(void)showConfirmViewWithOrder_sn:(NSString *)order_sn
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                   message:@"确认已收到商品"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action){
+                                                             
+                                                         }];
+    UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action){
+                                                              [self Determineifthereisapaymentpassword:@"querenshouhuozhifu" andorder_snstring:order_sn];
+                                                          }];
+    [alert addAction:quxiaoaction];
+    [alert addAction:quedingaction];
+    [self presentViewController:alert animated:YES completion:^{ }];
+}
+
+//确认删除订单弹框
+-(void)showDeleteViewWithOrder_sn:(NSString *)order_sn
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除订单吗?"
+                                                                   message:@"订单删除不能恢复,请谨慎操作"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *quxiaoaction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action){
+                                                             
+                                                         }];
+    UIAlertAction *quedingaction = [UIAlertAction actionWithTitle:@"确定"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action){
+                                                              [self deleteOrder:order_sn];
+                                                          }];
+    [alert addAction:quxiaoaction];
+    [alert addAction:quedingaction];
+    [self presentViewController:alert animated:YES completion:^{ }];
+}
+
+//查看物流
+-(void)checkLogicWithModel:(GoodListModel *)glmodel
+{
+    SubclassModuleViewController *smvc = [[SubclassModuleViewController alloc]init];
+    smvc.TradeLogisticsDataSource=[NSMutableArray new];
+    
+    NSString *expressqueryUrl = @"https://way.jd.com/fegine/exp";
+    //参数列表
+    NSMutableDictionary *parame = [NSMutableDictionary new];
+    [parame setObject:GetSaveString(glmodel.shipping_code) forKey:@"type"];
+    [parame setObject:GetSaveString(glmodel.invoice_no) forKey:@"no"];
+    [parame setObject:@"d08ce5d77a6d395a23de6745d9b7407e" forKey:@"appkey"];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    /**
+     *  可以接受的类型
+     */
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    manager.requestSerializer.timeoutInterval = 5;
+    
+    if (![MBProgressHUD allHUDsForView:kWindow].count)kShowHUDAndActivity;
+    
+    [manager GET:expressqueryUrl parameters:parame success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        
+        kHiddenHUDAndAvtivity;
+        
+        //直接吧返回的参数进行解析然后返回
+        NSDictionary *resultdic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+        
+        NSLog(@"expressqueryUrl-----%@-----resultdic-----%@",expressqueryUrl,resultdic);
+        
+        NSString *codeStr = [NSString stringWithFormat:@"%@",[resultdic objectForKey:@"code"]];
+        NSDictionary *resultdic1=[resultdic objectForKey:@"result"];
+        NSString *status;
+        NSDictionary *resultdic2;
+        if ([resultdic1 isKindOfClass:[NSDictionary class]]) {
+            status = [NSString stringWithFormat:@"%@",[resultdic1 objectForKey:@"status"]];
+            resultdic2 = [resultdic1 objectForKey:@"result"];
+        }
+        //        NSMutableArray *listarray=kDictIsEmpty(resultdic2)?[NSMutableArray new]:[resultdic2 objectForKey:@"list"];
+        if (codeStr.intValue==10000) {
+            
+            if ([resultdic2 isKindOfClass:[NSDictionary class]]) {
+                NSMutableArray *listarray=[resultdic2 objectForKey:@"list"];
+                
+                for (NSDictionary *dic in listarray) {
+                    
+                    //初始化模型
+                    LogisticsTimelineModel *model=[LogisticsTimelineModel mj_objectWithKeyValues:dic];
+                    //把模型添加到相应的数据源数组中
+                    //                    [self.TradeLogisticsDataSource addObject:model];
+                    [smvc.TradeLogisticsDataSource addObject:model];
+                    
+                }
+                smvc.logisticsPhone = resultdic2[@"expPhone"];
+            }
+            
+            smvc.categorynameNumString=@"TradeLogistics";
+            smvc.logisticsTypeString = glmodel.shipping_code;
+            smvc.logisticsNoString = glmodel.invoice_no;
+            [self.navigationController pushViewController:smvc animated:YES];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        
+        kHiddenHUDAndAvtivity;
+        
+    }];
 }
 
 -(void)deleteOrder:(NSString *)order_snstring{
