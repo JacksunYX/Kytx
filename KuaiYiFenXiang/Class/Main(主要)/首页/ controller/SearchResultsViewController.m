@@ -677,7 +677,7 @@ static NSString *const TheStoreCollectionViewCellID = @"TheStoreCollectionViewCe
     if ([self.searchtypes isEqualToString:@"商品"]) {
         return OtherCollectionViewCellSize;
     }else if ([self.searchtypes isEqualToString:@"店铺"]){
-        return CGSizeMake(SCREEN_WIDTH , 215);
+        return CGSizeMake(SCREEN_WIDTH , (SCREEN_WIDTH-40)/3 + 100);
     }else{
         return CGSizeZero;
     }

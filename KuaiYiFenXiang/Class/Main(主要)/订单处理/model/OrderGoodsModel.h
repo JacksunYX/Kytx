@@ -20,6 +20,8 @@
 @property (nonatomic, copy) NSString *isshowrefundBtnString;
 @property (nonatomic, copy) NSString *shipping_code;
 @property (nonatomic, copy) NSString *invoice_no;
-
-
+//新增，退款总额
+@property (nonatomic, copy) NSString *refundMoney;
+@property (nonatomic, copy) NSString *pay_refund;   //退款状态
+@property (nonatomic, copy) NSString *goods_num;    //商品数量
 @end

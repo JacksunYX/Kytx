@@ -487,7 +487,7 @@ kWindow.userInteractionEnabled = YES;\
 
 //----------------------是否跳转到查看物流列表界面----------------------------
 
-#define PushToLogicListVC (1)
+#define PushToLogicListVC (0)
 
 //----------------------是否有银联支付----------------------------
 

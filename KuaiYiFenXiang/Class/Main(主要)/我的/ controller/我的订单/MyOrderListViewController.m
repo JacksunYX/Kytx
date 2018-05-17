@@ -947,7 +947,7 @@ static NSString *const MyOrderListRecommendCellID = @"MyOrderListCellID";
         LRToast(@"商品数据有误");
         return;
     }
-    GoodListModel *glmodel=olmodel.goods_list[0];
+    GoodListModel *glmodel = olmodel.goods_list[0];
     
     if (olmodel.pay_refund.intValue==1||olmodel.pay_refund.intValue==2 || (olmodel.pay_refund.integerValue == 0 && olmodel.business_status.integerValue == 2)) {
         if([btn.titleLabel.text isEqualToString:@"查看售后"]) {

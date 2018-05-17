@@ -191,7 +191,8 @@
     self.storeiNameLabel.sd_layout
     .leftSpaceToView(self.storeLogoImageView, 10)
     .centerYEqualToView(self.storeLogoImageView)
-    .autoHeightRatio(0);
+    .autoHeightRatio(0)
+    ;
     [self.storeiNameLabel setSingleLineAutoResizeWithMaxWidth:self.contentView.width-75];
     
     self.enterStoreButton.sd_layout
@@ -203,7 +204,9 @@
     self.shopIntroductionLabel.sd_layout
     .topSpaceToView(self.storeLogoImageView, 10)
     .leftEqualToView(self.storeLogoImageView)
-    .autoHeightRatio(0);
+//    .autoHeightRatio(0)
+    .heightIs(10)
+    ;
     [self.shopIntroductionLabel setSingleLineAutoResizeWithMaxWidth:self.contentView.width-30];
     
     

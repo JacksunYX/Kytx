@@ -79,7 +79,8 @@
     [self.ordergoodscountLabel setText:[NSString stringWithFormat:@"x %@",OrderGoodsModel.ordergoodscountString]];
     
     [self.refundBtn setTitle:@"退款售后" forState:UIControlStateNormal];
-    self.refundBtn.hidden = YES;
+    
+//    self.refundBtn.hidden = YES;
     //一定要调用布局方法进行布局
     [self layoutSubviews];
     

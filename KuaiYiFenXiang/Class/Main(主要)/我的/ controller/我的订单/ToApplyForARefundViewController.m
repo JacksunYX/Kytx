@@ -401,7 +401,7 @@
                                 success:^(id responseObject)  {
                                     
                                     NSString *codeStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"code"]]; ;
-                                    NSDictionary *result=[responseObject objectForKey:@"result"];
+//                                    NSDictionary *result=[responseObject objectForKey:@"result"];
                                     
                                     if (codeStr.intValue==1) {
                                         

@@ -328,12 +328,17 @@
                                             @"ordergoodsyuanjiaString":[NSString stringWithFormat:@"%@",[order_goodsdic objectForKey:@"market_price"]],
                                             @"ordergoodscountString":[NSString stringWithFormat:@"%@",[order_goodsdic objectForKey:@"goods_num"]],
                                             @"ordergoodssmallimgUrlString":@"qitiantuikuan",
-                                            @"isshowrefundBtnString":kStringIsEmpty(self.isshowrefundBtnString)?@"":self.isshowrefundBtnString,
+                                            @"isshowrefundBtnString":showPaySection?@"":@"show",
                                             
                                             @"shipping_code":[NSString stringWithFormat:@"%@",[order_goodsdic objectForKey:@"shipping_code"]],
                                             
                                             @"invoice_no":[NSString stringWithFormat:@"%@",[order_goodsdic objectForKey:@"invoice_no"]],
                                             
+                                            @"refundMoney":[NSString stringWithFormat:@"%.2f",([order_goodsdic[@"goods_num"] integerValue] * [order_goodsdic[@"goods_price"] floatValue])],
+                                            
+                                            @"pay_refund":order_goodsdic[@"pay_refund"],
+                                            
+                                            @"goods_num":order_goodsdic[@"goods_num"],
                                             };
             
             //            //初始化模型
@@ -522,19 +527,43 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [cell.contentView setBackgroundColor:BACKVIEWCOLOR];
         //根据相应的cell的行数进行每行cell的数据设置
-        NSDictionary *dic=self.business_infoarray[indexPath.section-1];
-        NSArray *array=[dic objectForKey:@"order_goodsarray"];
-        kArrayIsEmpty(array)?:[cell setOrderGoodsModel:array[indexPath.row]];
-        @weakify(self)
-        cell.didClickrefundBtnHandler = ^(NSString *ordersnstring) {
-            NSLog(@"ordersnstring-----%@",ordersnstring);
-            @strongify(self)
-            ToApplyForARefundViewController *tafrvc=[[ToApplyForARefundViewController alloc]init];
-            tafrvc.refundamountString = realpaymentstring;
-            tafrvc.refundordersnString = ordersnstring;
-            tafrvc.isshowRefundPopView = self.isshowRefundPopView;
-            [self.navigationController pushViewController:tafrvc animated:YES];
-        };
+        NSDictionary *dic = self.business_infoarray[indexPath.section-1];
+        NSArray *array = [dic objectForKey:@"order_goodsarray"];
+        if (!kArrayIsEmpty(array)) {
+            OrderGoodsModel *model = array[indexPath.row];
+            cell.OrderGoodsModel = model;
+            
+            @weakify(self)
+            cell.didClickrefundBtnHandler = ^(NSString *ordersnstring) {
+                NSLog(@"ordersnstring-----%@",ordersnstring);
+                @strongify(self)
+                
+                switch (model.pay_refund.integerValue) {
+                    case 0:
+                    {
+                        ToApplyForARefundViewController *tafrvc=[[ToApplyForARefundViewController alloc]init];
+                        //            tafrvc.refundamountString = realpaymentstring;
+                        tafrvc.refundamountString = model.refundMoney;
+                        tafrvc.refundordersnString = ordersnstring;
+                        tafrvc.isshowRefundPopView = self.isshowRefundPopView;
+                        [self.navigationController pushViewController:tafrvc animated:YES];
+                    }
+                        break;
+                  
+                    default:
+                    {
+                        DetailsRefundViewController *drvc = [[DetailsRefundViewController alloc]init];
+                        drvc.refundordersnString = ordersnstring;
+                        drvc.all_num = model.goods_num;
+                        [self.navigationController pushViewController:drvc animated:YES];
+                    }
+                        break;
+                }
+                
+            };
+            
+        }
+        
         return cell;
     }
     
@@ -1034,6 +1063,8 @@
     [centerBtn addTarget:self action:@selector(centerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [leftBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
+    leftBtn.hidden = YES;
+    
     if (self.noShowBot) {
         if ([self.btntextstring isEqualToString:@"确认收货"]){
             [rightBtn setTitle:@"查看物流" forState:UIControlStateNormal];
@@ -1131,14 +1162,17 @@
     }
 }
 
--(void)leftBtnClick:(UIButton *)btn{
-    ToApplyForARefundViewController *tafrvc=[[ToApplyForARefundViewController alloc]init];
-    tafrvc.refundamountString=realpaymentstring;
-    tafrvc.refundordersnString=self.order_snstring;
-    tafrvc.isshowRefundPopView=self.isshowRefundPopView;
+-(void)leftBtnClick:(UIButton *)btn
+{
+    ToApplyForARefundViewController *tafrvc = [[ToApplyForARefundViewController alloc]init];
+    tafrvc.refundamountString = realpaymentstring;
+    tafrvc.refundordersnString = self.order_snstring;
+    tafrvc.isshowRefundPopView = self.isshowRefundPopView;
     tafrvc.shipping_status = _resultdic[@"shipping_status"];
     [self.navigationController pushViewController:tafrvc animated:YES];
 }
+
+
 
 -(void)callphone:(UIButton *)btn{
     NSArray *arr = _resultdic[@"business_info"];
